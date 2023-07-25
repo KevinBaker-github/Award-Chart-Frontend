@@ -1,0 +1,94 @@
+{
+  "awardCharts": [
+    {
+      "id": 1,
+      "category": 1,
+      "roomCategory": "Standard",
+      "pricingLevel": "RewardSaver",
+      "points": "6000",
+      "updateDatetime": "2023-07-24T15:17:44.445049",
+      "updateUser": "luis"
+    },
+    {
+      "id": 2,
+      "category": 1,
+      "roomCategory": "Standard",
+      "pricingLevel": "Standard",
+      "points": "6000",
+      "updateDatetime": "2023-07-24T15:17:44.445049",
+      "updateUser": "luis"
+    },
+    {
+      "id": 3,
+      "category": 1,
+      "roomCategory": "Standard",
+      "pricingLevel": "BasePick",
+      "points": "6000",
+      "updateDatetime": "2023-07-24T15:17:44.445049",
+      "updateUser": "luis"
+    },
+    {
+      "id": 4,
+      "category": 1,
+      "roomCategory": "Premium",
+      "pricingLevel": "Premium",
+      "points": "6000",
+      "updateDatetime": "2023-07-24T15:17:44.445049",
+      "updateUser": "luis"
+    },
+    {
+      "id": 5,
+      "category": 1,
+      "roomCategory": "Premium",
+      "pricingLevel": "PremiumPick",
+      "points": "6000",
+      "updateDatetime": "2023-07-24T15:17:44.445049",
+      "updateUser": "luis"
+    },
+    {
+      "category": "2",
+      "roomCategory": "Standard",
+      "pricingLevel": "Rewardsaver",
+      "points": "2000",
+      "updateUser": "Neelima Velpula",
+      "updateDatetime": "2023-07-24 16:35:00",
+      "id": 6
+    },
+    {
+      "category": "2",
+      "roomCategory": "Standard",
+      "pricingLevel": "Standard",
+      "points": "4000",
+      "updateUser": "Neelima Velpula",
+      "updateDatetime": "2023-07-24 16:40:00",
+      "id": 7
+    },
+    {
+      "category": "2",
+      "roomCategory": "Standard",
+      "pricingLevel": "BasePick",
+      "points": "2000",
+      "updateUser": "Neelima Velpula",
+      "updateDatetime": "2023-07-24 18:45:00",
+      "id": 8
+    },
+    {
+      "category": "2",
+      "roomCategory": "Premium",
+      "pricingLevel": "Premium",
+      "points": "2000",
+      "updateUser": "Neelima Velpula",
+      "updateDatetime": "2023-07-24 18:45:00",
+      "id": 9
+    },
+    {
+      "category": "2",
+      "roomCategory": "Premium",
+      "pricingLevel": "PremiumPeak",
+      "points": "9000",
+      "updateUser": "Neelima Velpula",
+      "updateDatetime": "2023-07-24 19:05:00",
+      "id": 10
+    }
+  ]
+}

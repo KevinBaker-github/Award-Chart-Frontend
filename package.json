@@ -1,0 +1,51 @@
+{
+  "name": "poc2",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-tailwind/react": "^2.0.6",
+    "@okta/okta-auth-js": "^5.2.1",
+    "@okta/okta-react": "^6.0.0",
+    "@okta/okta-signin-widget": "^5.8.1",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
+    "json-server": "^0.17.3",
+    "react": "^18.1.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.45.2",
+    "react-icons": "^4.10.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  }
+}
