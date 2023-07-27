@@ -9,6 +9,15 @@ import useAuthUser from "../hook/getUser";
 import { useEffect } from "react";
 
 
+/**
+ * Award Chart Form: Equiped with create and edit capabilities, just by using the states following states
+ * from the caller: 
+ * setIsEdit(true/false);
+ * setCurrentRecord(dataToBeEdited);
+ * In this case, this form is only used for creating, since the editing functionality is made field by field.
+ * @param {*} param0 
+ * @returns 
+ */
 const AwardChartForm = ({dialogOpen, modalHandler, creationHandler, editionHandler, defaultData, isEdit}) => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
     const userInfo = useAuthUser();

@@ -11,37 +11,129 @@ import {
 } from "@material-tailwind/react";
 import CardContainer from "../components/CardContainer";
 import FullScreen from "../components/FullScreen";
-import { AiFillEdit, AiOutlineSearch, AiFillDelete } from 'react-icons/ai'
-import ValueIndicator from "../components/ValueIndicator";
+import { AiOutlineSearch, AiFillDelete } from 'react-icons/ai'
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AwardChartForm from "../components/AwardChartForm";
+import EditAwardChartValue from "../components/EditAwardChartValue";
 
-const TABLE_HEAD = ["Category", "Room Category", "Pricing Level", "Points", "UpdateUser", "UpdateDatetime", "Options"];
+const TABLE_HEAD = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
 
+const TABLE_ROWS = [
+	{
+		"category": 1,
+		"roomCategories": [
+			{
+				"standard": [
+					{
+						"pricingLevel": "RewardSaver",
+						"points": "1000"
+					},
+					{
+						"pricingLevel": "Standard",
+						"points": "1000"
+					},
+					{
+						"pricingLevel": "BasePeak",
+						"points": "1000"
+					}
+				]
+			},
+			{
+				"premium": [
+					{
+						"pricingLevel": "Premium",
+						"points": "1000"
+					},
+					{
+						"pricingLevel": "PremiumPeak",
+						"points": "1000"
+					}
+				]
+			}
+		]
+	}
+];
 
 const AwardChart = () => {
 	const [data, setData] = useState([])
 	const [dialogOpen, setDialogOpen] = useState(false);
-	const [isEdit, setIsEdit] = useState(false);
-	const [currentRecord, setCurrentRecord] = useState({});
+	const [editPopoverOpen, setEditPopoverOpen] = useState(false);
+	const [editPopoverOpen2, setEditPopoverOpen2] = useState(false);
+	const [editPopoverOpen3, setEditPopoverOpen3] = useState(false);
+	const [editPopoverOpen4, setEditPopoverOpen4] = useState(false);
+	const [editPopoverOpen5, setEditPopoverOpen5] = useState(false);
+	const [isEdit, setIsEdit] = useState(false); // Use if edit by modal
+	const [currentRecord, setCurrentRecord] = useState({}); // Use if edit by modal
+
   	const handleDialogOpen = () => setDialogOpen((currentState) => !currentState);
+	const handleEditPopoverOpen = () => setEditPopoverOpen((currentState) => !currentState);
+	const handleEditPopoverOpen2 = () => setEditPopoverOpen2((currentState) => !currentState);
+	const handleEditPopoverOpen3 = () => setEditPopoverOpen3((currentState) => !currentState);
+	const handleEditPopoverOpen4 = () => setEditPopoverOpen4((currentState) => !currentState);
+	const handleEditPopoverOpen5 = () => setEditPopoverOpen5((currentState) => !currentState);
 
 	useEffect(()=> {
 		reloadTableData();
 	}, [])
-	
-	const tableValueClickHandler = (identifier) => {
-		console.log('Category Id: ' + identifier);
-	}
 
 	const reloadTableData = () => {
 		axios.get('http://localhost:8080/awardCharts')
 		.then(res => {
 			console.log(res.data)
-			setData(res.data)
+			setData(mapData(res.data));
 		})
 		.catch(err => console.log(err))
+	}
+
+	const mapData = (data) => {
+		let dataMapped = []
+
+		for (let i = 0; i < data.length; i++) { // Categories
+			let mapped = {}
+			const currentNode = data[i]
+			mapped['category'] = currentNode['category']
+
+			if(currentNode['roomCategories'].length){ // Exists Room Categories
+				if(currentNode['roomCategories'][0]['standard'].length){ // Standards
+					let rewardSaver = {}
+					rewardSaver['roomCategory'] = 'Standard'
+					rewardSaver['pricingLevel'] = 'RewardSaver'
+					rewardSaver['points'] = currentNode['roomCategories'][0]['standard'][0]['points']
+					mapped['rewardSaver'] = rewardSaver
+
+					let standard = {}
+					standard['roomCategory'] = 'Standard'
+					standard['pricingLevel'] = 'Standard'
+					standard['points'] = currentNode['roomCategories'][0]['standard'][1]['points']
+					mapped['standard'] = standard
+
+					let basePeak = {}
+					basePeak['roomCategory'] = 'Standard'
+					basePeak['pricingLevel'] = 'BasePeak'
+					basePeak['points'] = currentNode['roomCategories'][0]['standard'][2]['points']
+					mapped['basePeak'] = basePeak
+				}
+				
+				if(currentNode['roomCategories'][1]['premium'].length){ // Premiums
+					let premium = {}
+					premium['roomCategory'] = 'Premium'
+					premium['pricingLevel'] = 'Premium'
+					premium['points'] = currentNode['roomCategories'][1]['premium'][0]['points']
+					mapped['premium'] = premium
+
+					let premiumPeak = {}
+					premiumPeak['roomCategory'] = 'Premium'
+					premiumPeak['pricingLevel'] = 'PremiumPeak'
+					premiumPeak['points'] = currentNode['roomCategories'][1]['premium'][1]['points']
+					mapped['premiumPeak'] = premiumPeak
+				}
+			}
+			dataMapped.push(mapped)
+		}
+
+		console.log(dataMapped);
+		return dataMapped;
 	}
 
 	const initCreateDialog = () => {
@@ -49,28 +141,11 @@ const AwardChart = () => {
 		handleDialogOpen();
 	}
 
-	const initEditDialog = (id) => {
-		// Load record
-		axios.get('http://localhost:8080/awardCharts/' + id)
-		.then(res => {
-			console.log(res.data);
-			setIsEdit(true);
-			setCurrentRecord(res.data);
-			handleDialogOpen();
-		})
-		.catch(err => {
-			console.log(err);
-		})
-	}
-
-
 	const createSubmitionHandler = (data) => {
-		console.log('Data: ' + data);
-		//Submit data to REST API
+		console.log(data);
 		axios.post('http://localhost:8080/awardCharts', data)
 		.then(res => {
 			console.log(res.data);
-			resetValues();
 			reloadTableData();
 		})
 		.catch(err => {
@@ -79,36 +154,34 @@ const AwardChart = () => {
 		resetValues();
 	}
 
-	const editSubmitionHandler = (id, body) => {
-		axios.put('http://localhost:8080/awardCharts/' + id, body)
+	const editSubmitionHandler = (category, body) => {
+		axios.put('http://localhost:8080/awardCharts/' + category, body)
 		.then(res => {
 			console.log(res.data);
-			resetValues();
 			reloadTableData();
 		})
 		.catch(err => {
 			console.log(err);
 		})
+		resetValues();
 	}
 
 	const deleteHandler = (id) => {
 		axios.delete('http://localhost:8080/awardCharts/' + id)
 		.then(res => {
 			console.log(res.data);
-			resetValues();
 			reloadTableData();
 		})
 		.catch(err => {
 			console.log(err);
 		})
+		resetValues();
 	}
 
 	const resetValues = () => {
-		console.log('final reset...');
 		setIsEdit(false);
 		setCurrentRecord({});
 	}
-
 
 	return (
 		<FullScreen>
@@ -144,10 +217,15 @@ const AwardChart = () => {
 							<table className="w-full min-w-max table-auto text-left">
 								<thead>
 									<tr>
+										<th colSpan="1"></th>
+										<th colSpan="3" className="text-center border-blue-gray-600 bg-blue-gray-200 p-2 rounded-tl-md rounded-tr-md">Standard</th>
+										<th colSpan="2" className="text-center border-blue-gray-600 bg-yellow-200 p-2 rounded-tl-md rounded-tr-md">Premium</th>
+									</tr>
+									<tr>
 										{TABLE_HEAD.map((head, index) => (
 											<th
 											key={head}
-											className="border-blue-gray-100 bg-blue-gray-50/50 p-4">
+											className="border-blue-gray-100 bg-blue-gray-100 p-4">
 											<Typography
 												variant="small"
 												color="blue-gray"
@@ -159,7 +237,7 @@ const AwardChart = () => {
 									</tr>
 								</thead>
 								<tbody>
-									{data.map(({id, category, roomCategory, pricingLevel, points, updateDatetime, updateUser }, index) => {
+									{data.map(({category, rewardSaver, standard, basePeak, premium, premiumPeak }, index) => {
 									const isLast = index === data.length - 1;
 									const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 						
@@ -170,42 +248,75 @@ const AwardChart = () => {
 													{category}
 												</Typography>
 											</td>
+
+											<td className={classes}>
+												<EditAwardChartValue popoverOpen={editPopoverOpen} 
+													handePopoverOpen={handleEditPopoverOpen}
+													editHandler={editSubmitionHandler}
+													valueName={'Points'}
+													data={{category, ...rewardSaver}} >
+														<Typography variant="small" color="blue-gray" 
+															className="font-normal cursor-pointer">
+															{rewardSaver.points}
+														</Typography>
+												</EditAwardChartValue>
+											</td>
+
+											<td className={classes}>
+												<EditAwardChartValue popoverOpen={editPopoverOpen2} 
+													handePopoverOpen={handleEditPopoverOpen2}
+													editHandler={editSubmitionHandler}
+													valueName={'Points'}
+													data={{category, ...standard}} >
+														<Typography variant="small" color="blue-gray" 
+															className="font-normal cursor-pointer">
+															{standard.points}
+														</Typography>
+												</EditAwardChartValue>
+											</td>
+
+											<td className={classes}>
+												<EditAwardChartValue popoverOpen={editPopoverOpen3} 
+													handePopoverOpen={handleEditPopoverOpen3}
+													editHandler={editSubmitionHandler}
+													valueName={'Points'}
+													data={{category, ...basePeak}} >
+														<Typography variant="small" color="blue-gray" 
+															className="font-normal cursor-pointer">
+															{basePeak.points}
+														</Typography>
+												</EditAwardChartValue>
+											</td>
 											
 											<td className={classes}>
-												<ValueIndicator value={roomCategory} rowIdentifier={id} 
-													clickHandler={tableValueClickHandler} comparedValue={'Premium'} 
-													specialColor={'yellow'} specialWord={'PREMIUM'} />
+												<EditAwardChartValue popoverOpen={editPopoverOpen4} 
+													handePopoverOpen={handleEditPopoverOpen4}
+													editHandler={editSubmitionHandler}
+													valueName={'Points'}
+													data={{category, ...premium}} >
+														<Typography variant="small" color="blue-gray" 
+															className="font-normal cursor-pointer">
+															{premium.points}
+														</Typography>
+												</EditAwardChartValue>
 											</td>
 
 											<td className={classes}>
-												<Typography variant="small" color="blue-gray" className="font-normal">
-													{pricingLevel}
-												</Typography>
-											</td>
-											<td className={classes}>
-												<Typography variant="small" color="blue-gray" className="font-normal">
-													{points}
-												</Typography>
-											</td>
-											<td className={classes}>
-												<Typography variant="small" color="blue-gray" className="font-normal">
-													{updateDatetime}
-												</Typography>
-											</td>
-											<td className={classes}>
-												<Typography variant="small" color="blue-gray" className="font-normal">
-													{updateUser}
-												</Typography>
+												<EditAwardChartValue popoverOpen={editPopoverOpen5} 
+													handePopoverOpen={handleEditPopoverOpen5}
+													editHandler={editSubmitionHandler}
+													valueName={'Points'}
+													data={{category, ...premiumPeak}} >
+														<Typography variant="small" color="blue-gray" 
+															className="font-normal cursor-pointer">
+															{premiumPeak.points}
+														</Typography>
+												</EditAwardChartValue>
 											</td>
 
 											<td className={classes}>
-												<Tooltip content="Edit">
-													<IconButton variant="text" color="blue-gray" onClick={() => initEditDialog(id)}>
-														<AiFillEdit className="h-4 w-4" />
-													</IconButton>
-												</Tooltip>
 												<Tooltip content="Delete">
-													<IconButton variant="text" color="blue-gray" onClick={() => deleteHandler(id)}>
+													<IconButton variant="text" color="blue-gray" onClick={() => deleteHandler(category)}>
 														<AiFillDelete className="h-4 w-4" />
 													</IconButton>
 												</Tooltip>
