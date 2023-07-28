@@ -5,7 +5,6 @@ import {
     Input,
     Typography,
 } from "@material-tailwind/react";
-import useAuthUser from "../hook/getUser";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import StandardButton from "./StandardButton";
@@ -16,8 +15,7 @@ import StandardButton from "./StandardButton";
  * @param {*} param0 
  * @returns 
  */
-const EditAwardChartValue = ({editHandler, valueName, data, popoverOpen, handePopoverOpen, children}) => {
-    const userInfo = useAuthUser();
+const EditAwardChartValue = ({editHandler, valueName, data, userInfo, children}) => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
     
     useEffect(() => {
@@ -35,13 +33,10 @@ const EditAwardChartValue = ({editHandler, valueName, data, popoverOpen, handePo
         data.updateDatetime = calculateTime(); //TODO: Delete
         data['points'] =  formData.points ? formData.points : "0";
         editHandler(data.category, data);
-        handePopoverOpen();
     }
 
-
     return (
-        <Popover placement="bottom" dismiss={{enabled: false}}
-            open={popoverOpen} handler={handePopoverOpen}>
+        <Popover placement="bottom">
             <PopoverHandler>
                 {children}
             </PopoverHandler>

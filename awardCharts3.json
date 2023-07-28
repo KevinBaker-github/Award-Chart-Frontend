@@ -1,0 +1,103 @@
+{
+  "awardCharts": [
+    {
+      "category": 1,
+      "roomCategories": [
+        {
+          "standard": [
+            {
+              "pricingLevel": "RewardSaver",
+              "points": "1000"
+            },
+            {
+              "pricingLevel": "Standard",
+              "points": "1000"
+            },
+            {
+              "pricingLevel": "BasePeak",
+              "points": "1000"
+            }
+          ]
+        },
+        {
+          "premium": [
+            {
+              "pricingLevel": "Premium",
+              "points": "1000"
+            },
+            {
+              "pricingLevel": "PremiumPeak",
+              "points": "1000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category": 2,
+      "roomCategories": [
+        {
+          "standard": [
+            {
+              "pricingLevel": "RewardSaver",
+              "points": "2000"
+            },
+            {
+              "pricingLevel": "Standard",
+              "points": "2000"
+            },
+            {
+              "pricingLevel": "BasePeak",
+              "points": "2000"
+            }
+          ]
+        },
+        {
+          "premium": [
+            {
+              "pricingLevel": "Premium",
+              "points": "2000"
+            },
+            {
+              "pricingLevel": "PremiumPeak",
+              "points": "2000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category": 3,
+      "roomCategories": [
+        {
+          "standard": [
+            {
+              "pricingLevel": "RewardSaver",
+              "points": "3000"
+            },
+            {
+              "pricingLevel": "Standard",
+              "points": "3000"
+            },
+            {
+              "pricingLevel": "BasePeak",
+              "points": "3000"
+            }
+          ]
+        },
+        {
+          "premium": [
+            {
+              "pricingLevel": "Premium",
+              "points": "3000"
+            },
+            {
+              "pricingLevel": "PremiumPeak",
+              "points": "3000"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

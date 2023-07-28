@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AwardChartForm from "../components/AwardChartForm";
 import EditAwardChartValue from "../components/EditAwardChartValue";
+import useAuthUser from "../hook/getUser";
 
 const TABLE_HEAD = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
 
@@ -56,22 +57,13 @@ const TABLE_ROWS = [
 ];
 
 const AwardChart = () => {
+	const userInfo = useAuthUser();
 	const [data, setData] = useState([])
 	const [dialogOpen, setDialogOpen] = useState(false);
-	const [editPopoverOpen, setEditPopoverOpen] = useState(false);
-	const [editPopoverOpen2, setEditPopoverOpen2] = useState(false);
-	const [editPopoverOpen3, setEditPopoverOpen3] = useState(false);
-	const [editPopoverOpen4, setEditPopoverOpen4] = useState(false);
-	const [editPopoverOpen5, setEditPopoverOpen5] = useState(false);
 	const [isEdit, setIsEdit] = useState(false); // Use if edit by modal
 	const [currentRecord, setCurrentRecord] = useState({}); // Use if edit by modal
 
   	const handleDialogOpen = () => setDialogOpen((currentState) => !currentState);
-	const handleEditPopoverOpen = () => setEditPopoverOpen((currentState) => !currentState);
-	const handleEditPopoverOpen2 = () => setEditPopoverOpen2((currentState) => !currentState);
-	const handleEditPopoverOpen3 = () => setEditPopoverOpen3((currentState) => !currentState);
-	const handleEditPopoverOpen4 = () => setEditPopoverOpen4((currentState) => !currentState);
-	const handleEditPopoverOpen5 = () => setEditPopoverOpen5((currentState) => !currentState);
 
 	useEffect(()=> {
 		reloadTableData();
@@ -95,40 +87,41 @@ const AwardChart = () => {
 			mapped['category'] = currentNode['category']
 
 			if(currentNode['roomCategories'].length){ // Exists Room Categories
-				if(currentNode['roomCategories'][0]['standard'].length){ // Standards
-					let rewardSaver = {}
-					rewardSaver['roomCategory'] = 'Standard'
-					rewardSaver['pricingLevel'] = 'RewardSaver'
-					rewardSaver['points'] = currentNode['roomCategories'][0]['standard'][0]['points']
-					mapped['rewardSaver'] = rewardSaver
 
-					let standard = {}
-					standard['roomCategory'] = 'Standard'
-					standard['pricingLevel'] = 'Standard'
-					standard['points'] = currentNode['roomCategories'][0]['standard'][1]['points']
-					mapped['standard'] = standard
+				// Standards
+				let rewardSaver = {}
+				rewardSaver['roomCategory'] = 'Standard'
+				rewardSaver['pricingLevel'] = 'RewardSaver'
+				rewardSaver['points'] = currentNode['roomCategories'][0]['standard'].length && currentNode['roomCategories'][0]['standard'][0] ? currentNode['roomCategories'][0]['standard'][0]['points'] : '0'
+				mapped['rewardSaver'] = rewardSaver
 
-					let basePeak = {}
-					basePeak['roomCategory'] = 'Standard'
-					basePeak['pricingLevel'] = 'BasePeak'
-					basePeak['points'] = currentNode['roomCategories'][0]['standard'][2]['points']
-					mapped['basePeak'] = basePeak
-				}
+				let standard = {}
+				standard['roomCategory'] = 'Standard'
+				standard['pricingLevel'] = 'Standard'
+				standard['points'] = currentNode['roomCategories'][0]['standard'].length && currentNode['roomCategories'][0]['standard'][1] ? currentNode['roomCategories'][0]['standard'][1]['points'] : '0'
+				mapped['standard'] = standard
+
+				let basePeak = {}
+				basePeak['roomCategory'] = 'Standard'
+				basePeak['pricingLevel'] = 'BasePeak'
+				basePeak['points'] = currentNode['roomCategories'][0]['standard'].length && currentNode['roomCategories'][0]['standard'][2] ? currentNode['roomCategories'][0]['standard'][2]['points'] : '0'
+				mapped['basePeak'] = basePeak
 				
-				if(currentNode['roomCategories'][1]['premium'].length){ // Premiums
-					let premium = {}
-					premium['roomCategory'] = 'Premium'
-					premium['pricingLevel'] = 'Premium'
-					premium['points'] = currentNode['roomCategories'][1]['premium'][0]['points']
-					mapped['premium'] = premium
+				
+				 // Premiums
+				let premium = {}
+				premium['roomCategory'] = 'Premium'
+				premium['pricingLevel'] = 'Premium'
+				premium['points'] = currentNode['roomCategories'][1]['premium'].length && currentNode['roomCategories'][1]['premium'][0] ? currentNode['roomCategories'][1]['premium'][0]['points'] : '0'
+				mapped['premium'] = premium
 
-					let premiumPeak = {}
-					premiumPeak['roomCategory'] = 'Premium'
-					premiumPeak['pricingLevel'] = 'PremiumPeak'
-					premiumPeak['points'] = currentNode['roomCategories'][1]['premium'][1]['points']
-					mapped['premiumPeak'] = premiumPeak
-				}
+				let premiumPeak = {}
+				premiumPeak['roomCategory'] = 'Premium'
+				premiumPeak['pricingLevel'] = 'PremiumPeak'
+				premiumPeak['points'] = currentNode['roomCategories'][1]['premium'].length && currentNode['roomCategories'][1]['premium'][1] ? currentNode['roomCategories'][1]['premium'][1]['points'] : '0'
+				mapped['premiumPeak'] = premiumPeak
 			}
+			
 			dataMapped.push(mapped)
 		}
 
@@ -250,11 +243,11 @@ const AwardChart = () => {
 											</td>
 
 											<td className={classes}>
-												<EditAwardChartValue popoverOpen={editPopoverOpen} 
-													handePopoverOpen={handleEditPopoverOpen}
+												<EditAwardChartValue
 													editHandler={editSubmitionHandler}
 													valueName={'Points'}
-													data={{category, ...rewardSaver}} >
+													data={{category, ...rewardSaver}} 
+													userInfo={userInfo}>
 														<Typography variant="small" color="blue-gray" 
 															className="font-normal cursor-pointer">
 															{rewardSaver.points}
@@ -263,11 +256,11 @@ const AwardChart = () => {
 											</td>
 
 											<td className={classes}>
-												<EditAwardChartValue popoverOpen={editPopoverOpen2} 
-													handePopoverOpen={handleEditPopoverOpen2}
+												<EditAwardChartValue
 													editHandler={editSubmitionHandler}
 													valueName={'Points'}
-													data={{category, ...standard}} >
+													data={{category, ...standard}} 
+													userInfo={userInfo}>
 														<Typography variant="small" color="blue-gray" 
 															className="font-normal cursor-pointer">
 															{standard.points}
@@ -276,11 +269,11 @@ const AwardChart = () => {
 											</td>
 
 											<td className={classes}>
-												<EditAwardChartValue popoverOpen={editPopoverOpen3} 
-													handePopoverOpen={handleEditPopoverOpen3}
+												<EditAwardChartValue 
 													editHandler={editSubmitionHandler}
 													valueName={'Points'}
-													data={{category, ...basePeak}} >
+													data={{category, ...basePeak}} 
+													userInfo={userInfo}>
 														<Typography variant="small" color="blue-gray" 
 															className="font-normal cursor-pointer">
 															{basePeak.points}
@@ -289,11 +282,11 @@ const AwardChart = () => {
 											</td>
 											
 											<td className={classes}>
-												<EditAwardChartValue popoverOpen={editPopoverOpen4} 
-													handePopoverOpen={handleEditPopoverOpen4}
+												<EditAwardChartValue 
 													editHandler={editSubmitionHandler}
 													valueName={'Points'}
-													data={{category, ...premium}} >
+													data={{category, ...premium}} 
+													userInfo={userInfo}>
 														<Typography variant="small" color="blue-gray" 
 															className="font-normal cursor-pointer">
 															{premium.points}
@@ -302,11 +295,11 @@ const AwardChart = () => {
 											</td>
 
 											<td className={classes}>
-												<EditAwardChartValue popoverOpen={editPopoverOpen5} 
-													handePopoverOpen={handleEditPopoverOpen5}
+												<EditAwardChartValue 
 													editHandler={editSubmitionHandler}
 													valueName={'Points'}
-													data={{category, ...premiumPeak}} >
+													data={{category, ...premiumPeak}} 
+													userInfo={userInfo}>
 														<Typography variant="small" color="blue-gray" 
 															className="font-normal cursor-pointer">
 															{premiumPeak.points}

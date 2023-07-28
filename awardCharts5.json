@@ -1,0 +1,20 @@
+{
+  "awardCharts": [
+    {
+      "category": 1,
+      "roomCategories": [
+        {
+          "standard": [
+            {
+              "pricingLevel": "RewardSaver",
+              "points": "1000"
+            }
+          ]
+        },
+        {
+          "premium": []
+        }
+      ]
+    }
+  ]
+}
