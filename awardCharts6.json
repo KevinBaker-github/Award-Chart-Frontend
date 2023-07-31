@@ -1,0 +1,39 @@
+{
+    "awardCharts": [
+      {
+        "category": 1,
+        "roomCategories": [
+          {
+            "name": "standard",
+            "pricingLevels" : [
+              {
+                "pricingLevel": "RewardSaver",
+                "points": "1000"
+              },
+              {
+                "pricingLevel": "Standard",
+                "points": "1000"
+              },
+              {
+                "pricingLevel": "BasePeak",
+                "points": "1000"
+              }
+            ]
+          },
+          {
+            "name": "premium",
+            "pricingLevels": [
+              {
+                "pricingLevel": "Premium",
+                "points": "1000"
+              },
+              {
+                "pricingLevel": "PremiumPeak",
+                "points": "1000"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

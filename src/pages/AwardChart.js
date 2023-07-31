@@ -92,19 +92,19 @@ const AwardChart = () => {
 				let rewardSaver = {}
 				rewardSaver['roomCategory'] = 'Standard'
 				rewardSaver['pricingLevel'] = 'RewardSaver'
-				rewardSaver['points'] = currentNode['roomCategories'][0]['standard'].length && currentNode['roomCategories'][0]['standard'][0] ? currentNode['roomCategories'][0]['standard'][0]['points'] : '0'
+				rewardSaver['points'] = currentNode['roomCategories'][0]['pricingLevels'].length && currentNode['roomCategories'][0]['pricingLevels'][0] ? currentNode['roomCategories'][0]['pricingLevels'][0]['points'] : '0'
 				mapped['rewardSaver'] = rewardSaver
 
 				let standard = {}
 				standard['roomCategory'] = 'Standard'
 				standard['pricingLevel'] = 'Standard'
-				standard['points'] = currentNode['roomCategories'][0]['standard'].length && currentNode['roomCategories'][0]['standard'][1] ? currentNode['roomCategories'][0]['standard'][1]['points'] : '0'
+				standard['points'] = currentNode['roomCategories'][0]['pricingLevels'].length && currentNode['roomCategories'][0]['pricingLevels'][1] ? currentNode['roomCategories'][0]['pricingLevels'][1]['points'] : '0'
 				mapped['standard'] = standard
 
 				let basePeak = {}
 				basePeak['roomCategory'] = 'Standard'
 				basePeak['pricingLevel'] = 'BasePeak'
-				basePeak['points'] = currentNode['roomCategories'][0]['standard'].length && currentNode['roomCategories'][0]['standard'][2] ? currentNode['roomCategories'][0]['standard'][2]['points'] : '0'
+				basePeak['points'] = currentNode['roomCategories'][0]['pricingLevels'].length && currentNode['roomCategories'][0]['pricingLevels'][2] ? currentNode['roomCategories'][0]['pricingLevels'][2]['points'] : '0'
 				mapped['basePeak'] = basePeak
 				
 				
@@ -112,13 +112,13 @@ const AwardChart = () => {
 				let premium = {}
 				premium['roomCategory'] = 'Premium'
 				premium['pricingLevel'] = 'Premium'
-				premium['points'] = currentNode['roomCategories'][1]['premium'].length && currentNode['roomCategories'][1]['premium'][0] ? currentNode['roomCategories'][1]['premium'][0]['points'] : '0'
+				premium['points'] = currentNode['roomCategories'][1]['pricingLevels'].length && currentNode['roomCategories'][1]['pricingLevels'][0] ? currentNode['roomCategories'][1]['pricingLevels'][0]['points'] : '0'
 				mapped['premium'] = premium
 
 				let premiumPeak = {}
 				premiumPeak['roomCategory'] = 'Premium'
 				premiumPeak['pricingLevel'] = 'PremiumPeak'
-				premiumPeak['points'] = currentNode['roomCategories'][1]['premium'].length && currentNode['roomCategories'][1]['premium'][1] ? currentNode['roomCategories'][1]['premium'][1]['points'] : '0'
+				premiumPeak['points'] = currentNode['roomCategories'][1]['pricingLevels'].length && currentNode['roomCategories'][1]['pricingLevels'][1] ? currentNode['roomCategories'][1]['pricingLevels'][1]['points'] : '0'
 				mapped['premiumPeak'] = premiumPeak
 			}
 			
