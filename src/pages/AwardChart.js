@@ -16,6 +16,8 @@ import { useEffect, useState } from "react";
 import AwardChartForm from "../components/AwardChartForm";
 import ValueIndicator from "../components/ValueIndicator";
 import * as AwardChartService from '../services/awardCharts/awardChartsService';
+// import * as AwardChartsMappers from '../utils/mappers/AwardChartsMappers';
+import { mapAwardChartsList } from '../utils/mappers/AwardChartsMappers';
 
 const TABLE_HEAD = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
 
@@ -33,66 +35,16 @@ const AwardChart = ({setIsLoading}) => {
 	}, [])
 
 	const reloadTableData = () => {
+		setIsLoading(true);
 		AwardChartService.listAwardCharts()
 		.then(res => {
-			console.log(res.data)
-			setData(mapData(res.data));
+			console.log(res.data);
+			setData(mapAwardChartsList(res.data));
 			setIsLoading(false);
 		})
 		.catch(err => {
 			setIsLoading(false);
 		})
-	}
-
-	const mapData = (data) => {
-		let dataMapped = []
-
-		for (let i = 0; i < data.length; i++) { // Categories
-			let mapped = {}
-			const currentNode = data[i]
-			mapped['category'] = currentNode['category']
-
-			if(currentNode['roomCategories'].length){ // Exists Room Categories
-
-				// Standards
-				let rewardSaver = {}
-				rewardSaver['roomCategory'] = 'Standard'
-				rewardSaver['pricingLevel'] = 'RewardSaver'
-				rewardSaver['points'] = currentNode['roomCategories'][0]['pricingLevels'].length && currentNode['roomCategories'][0]['pricingLevels'][0] ? currentNode['roomCategories'][0]['pricingLevels'][0]['points'] : '0'
-				mapped['rewardSaver'] = rewardSaver
-
-				let standard = {}
-				standard['roomCategory'] = 'Standard'
-				standard['pricingLevel'] = 'Standard'
-				standard['points'] = currentNode['roomCategories'][0]['pricingLevels'].length && currentNode['roomCategories'][0]['pricingLevels'][1] ? currentNode['roomCategories'][0]['pricingLevels'][1]['points'] : '0'
-				mapped['standard'] = standard
-
-				let basePeak = {}
-				basePeak['roomCategory'] = 'Standard'
-				basePeak['pricingLevel'] = 'BasePeak'
-				basePeak['points'] = currentNode['roomCategories'][0]['pricingLevels'].length && currentNode['roomCategories'][0]['pricingLevels'][2] ? currentNode['roomCategories'][0]['pricingLevels'][2]['points'] : '0'
-				mapped['basePeak'] = basePeak
-				
-				
-				 // Premiums
-				let premium = {}
-				premium['roomCategory'] = 'Premium'
-				premium['pricingLevel'] = 'Premium'
-				premium['points'] = currentNode['roomCategories'][1]['pricingLevels'].length && currentNode['roomCategories'][1]['pricingLevels'][0] ? currentNode['roomCategories'][1]['pricingLevels'][0]['points'] : '0'
-				mapped['premium'] = premium
-
-				let premiumPeak = {}
-				premiumPeak['roomCategory'] = 'Premium'
-				premiumPeak['pricingLevel'] = 'PremiumPeak'
-				premiumPeak['points'] = currentNode['roomCategories'][1]['pricingLevels'].length && currentNode['roomCategories'][1]['pricingLevels'][1] ? currentNode['roomCategories'][1]['pricingLevels'][1]['points'] : '0'
-				mapped['premiumPeak'] = premiumPeak
-			}
-			
-			dataMapped.push(mapped)
-		}
-
-		console.log(dataMapped);
-		return dataMapped;
 	}
 
 	const initCreateDialog = () => {

@@ -9,7 +9,7 @@ const useAuthUser = () => {
 		const getUser = async () => {
 			try {
 				const res = await oktaAuth.getUser();
-                console.log(res);
+                //console.log(res);
 				setUserInfo(res);
 			} catch (error) {
 				console.log(error);
