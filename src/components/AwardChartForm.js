@@ -38,22 +38,16 @@ const AwardChartForm = ({dialogOpen, modalHandler, creationHandler, editionHandl
      */
     const handleFormSubmit = (data) => {
         data.updateUser = userInfo?.name;
-        data.updateDatetime = calculateTime() //TODO: Delete
 
         if (isEdit){ // Send data back to the caller
             console.log('before editing');
             handleResetForm();
-            editionHandler(defaultData.category, data);
+            editionHandler(data);
         } else {
             handleResetForm();
+            data.category = Number(data.category);
             creationHandler(data);
         }
-    }
-
-    const calculateTime = () => { //TODO: Delete
-        var d = new Date();
-        d = new Date(d.getTime() - 3000000);
-        return d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString())+" "+(d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+((parseInt(d.getMinutes()/5)*5).toString().length==2?(parseInt(d.getMinutes()/5)*5).toString():"0"+(parseInt(d.getMinutes()/5)*5).toString())+":00";
     }
 
     /**
@@ -103,9 +97,9 @@ const AwardChartForm = ({dialogOpen, modalHandler, creationHandler, editionHandl
                                     required: true
                                 })}
                                 disabled={isEdit} >
-                                <option value="Rewardsaver">Rewardsaver</option>
+                                <option value="RewardSaver">Reward Saver</option>
                                 <option value="Standard">Standard</option>
-                                <option value="BasePick">Base Peak</option>
+                                <option value="BasePeak">Base Peak</option>
                                 <option value="Premium">Premium</option>
                                 <option value="PremiumPeak">Premium Peak</option>
                             </select>

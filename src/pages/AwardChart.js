@@ -13,53 +13,14 @@ import CardContainer from "../components/CardContainer";
 import FullScreen from "../components/FullScreen";
 import { AiOutlineSearch, AiFillDelete } from 'react-icons/ai'
 import { useEffect, useState } from "react";
-import axios from "axios";
 import AwardChartForm from "../components/AwardChartForm";
-import EditAwardChartValue from "../components/EditAwardChartValue";
-import useAuthUser from "../hook/getUser";
 import ValueIndicator from "../components/ValueIndicator";
-import FullScreenSpinner from "../components/FullScreenSpinner";
+import * as AwardChartService from '../services/awardCharts/awardChartsService';
 
 const TABLE_HEAD = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
 
-const TABLE_ROWS = [
-	{
-		"category": 1,
-		"roomCategories": [
-			{
-				"standard": [
-					{
-						"pricingLevel": "RewardSaver",
-						"points": "1000"
-					},
-					{
-						"pricingLevel": "Standard",
-						"points": "1000"
-					},
-					{
-						"pricingLevel": "BasePeak",
-						"points": "1000"
-					}
-				]
-			},
-			{
-				"premium": [
-					{
-						"pricingLevel": "Premium",
-						"points": "1000"
-					},
-					{
-						"pricingLevel": "PremiumPeak",
-						"points": "1000"
-					}
-				]
-			}
-		]
-	}
-];
 
 const AwardChart = ({setIsLoading}) => {
-	const userInfo = useAuthUser();
 	const [data, setData] = useState([])
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [isEdit, setIsEdit] = useState(false); // Use if edit by modal
@@ -72,15 +33,13 @@ const AwardChart = ({setIsLoading}) => {
 	}, [])
 
 	const reloadTableData = () => {
-		setIsLoading(true);
-		axios.get('http://localhost:8080/awardCharts')
+		AwardChartService.listAwardCharts()
 		.then(res => {
 			console.log(res.data)
 			setData(mapData(res.data));
 			setIsLoading(false);
 		})
 		.catch(err => {
-			console.log(err);
 			setIsLoading(false);
 		})
 	}
@@ -148,38 +107,37 @@ const AwardChart = ({setIsLoading}) => {
 	}
 
 	const createSubmitionHandler = (data) => {
-		console.log(data);
-		axios.post('http://localhost:8080/awardCharts', data)
+		setIsLoading(true);
+		AwardChartService.createAwardChart(data)
 		.then(res => {
-			console.log(res.data);
 			reloadTableData();
 		})
 		.catch(err => {
-			console.log(err);
+			setIsLoading(false);
 		})
 		resetValues();
 	}
 
-	const editSubmitionHandler = (category, body) => {
-		axios.put('http://localhost:8080/awardCharts/' + category, body)
+	const editSubmitionHandler = (data) => {
+		setIsLoading(true);
+		AwardChartService.editAwardChart(data)
 		.then(res => {
-			console.log(res.data);
 			reloadTableData();
 		})
 		.catch(err => {
-			console.log(err);
+			setIsLoading(false);
 		})
 		resetValues();
 	}
 
 	const deleteHandler = (category) => {
-		axios.delete('http://localhost:8080/awardCharts/' + category)
+		setIsLoading(true);
+		AwardChartService.deleteAwardChart(category)
 		.then(res => {
-			console.log(res.data);
 			reloadTableData();
 		})
 		.catch(err => {
-			console.log(err);
+			setIsLoading(false);
 		})
 		resetValues();
 	}
