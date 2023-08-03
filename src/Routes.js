@@ -8,10 +8,11 @@ import AppNavbar from "./components/AppNavbar";
 import { BrowserRouter } from "react-router-dom";
 import Wellcome from "./pages/Wellcome";
 import AwardChart from "./pages/AwardChart";
+import FullScreenSpinner from "./components/FullScreenSpinner";
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
-const Routes = () => {
+const Routes = ({isLoading, setIsLoading}) => {
 	const history = useHistory();
 	
 	const originalUri = async (_oktaAuth, originalUri) => {
@@ -22,9 +23,10 @@ const Routes = () => {
 		<BrowserRouter>
 			<Security oktaAuth={oktaAuth} restoreOriginalUri={originalUri}>
 				<AppNavbar />
+				<FullScreenSpinner isLoading={isLoading}/>
 				<Switch>
 					<Route path="/" exact={true} component={Wellcome} />
-					<SecureRoute path="/awardChart" exact={true} component={AwardChart} />
+					<SecureRoute path="/awardChart" exact={true} render={(props) => <AwardChart {...props} setIsLoading={setIsLoading}/>} />
 					<SecureRoute path="/profile" component={Profile} />
 					<Route path="/login/callback" component={LoginCallback} />
 				</Switch>				

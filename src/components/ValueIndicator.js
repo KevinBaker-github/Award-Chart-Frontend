@@ -3,10 +3,14 @@ import {
     Chip
 } from "@material-tailwind/react";
 
-
-const ValueIndicator = ({value, rowIdentifier, clickHandler, comparedValue, specialColor, specialWord}) => {
-
-
+/**
+ * This component displays a value and additionally allows to customize its background color
+ * and a special word replacing the value depending on a condition.
+ * @param {*} param0 
+ * @returns 
+ */
+const ValueIndicator = ({value, data, clickHandler, comparedValue, specialColor, specialWord}) => {
+    
     return (
         <>
             {value === comparedValue 
@@ -17,14 +21,14 @@ const ValueIndicator = ({value, rowIdentifier, clickHandler, comparedValue, spec
                         size="sm"
                         value={specialWord ? specialWord : value}
                         color={specialColor? specialColor : "blue-gray" }
-                        className="cursor-pointer"
-                        onClick={() => clickHandler(rowIdentifier)}
+                        className="cursor-pointer hover:scale-110"
+                        onClick={() => clickHandler(data)}
                     />
 		        </div>
             ): (
                 <Typography variant="small" color="blue-gray" 
                     className="font-normal cursor-pointer"
-                    onClick={() => clickHandler(rowIdentifier)}>
+                    onClick={() => clickHandler(data)}>
 					{value}
 				</Typography>
             )

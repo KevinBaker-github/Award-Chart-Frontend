@@ -17,7 +17,7 @@ const AppNavbar = () => {
 
 	return (
         <header>
-            <nav className="w-full fixed top-0 left-0 right-0 z-10 bg-white text-black shadow-md shadow-gray-800">
+            <nav className="w-full fixed top-0 left-0 right-0 z-50 bg-white text-black shadow-md shadow-gray-800">
                 <div className="flex justify-between items-center px-4 py-4 2xl:px-8">
                     <div className="flex flex-grow basis-0">
                         <Link to="/wellcome">
@@ -42,8 +42,8 @@ const AppNavbar = () => {
                             )
 					    }
 
-                        <div className="md:hidden">
-                            <button className="p-1 text-black hover:scale-125 cursor-pointer"
+                        <div className="md:hidden sm:my-auto">
+                            <button className="p-1 text-black hover:scale-125 cursor-pointer sm:ml-4"
                                 onClick={() => setMenuOpen(!menuOpen)}>
                                 {menuOpen ? (<GrClose size="1.5rem"/>) 
                                 : (<GiHamburgerMenu size="1.5rem" />)}
@@ -54,7 +54,7 @@ const AppNavbar = () => {
             </nav>
             
             <div className={menuOpen 
-                ? "fixed left-0 top-0 w-full h-screen bg-black text-white px-10 py-20 ease-in duration-500" 
+                ? "fixed left-0 top-0 w-full h-screen bg-black text-white px-10 py-20 ease-in duration-500 z-40" 
                 : "fixed left-[-100%] top-0 w-full h-screen px-10 py-16 ease-in duration-500"}>
                 <div className="flex flex-col items-center">
                     <ul className="flex flex-col gap-1 [&>*>li]:transition-colors [&>*>li]:duration-400 

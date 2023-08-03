@@ -43,7 +43,7 @@ const AwardChartForm = ({dialogOpen, modalHandler, creationHandler, editionHandl
         if (isEdit){ // Send data back to the caller
             console.log('before editing');
             handleResetForm();
-            editionHandler(defaultData.id, data);
+            editionHandler(defaultData.category, data);
         } else {
             handleResetForm();
             creationHandler(data);

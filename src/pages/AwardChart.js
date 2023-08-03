@@ -17,6 +17,8 @@ import axios from "axios";
 import AwardChartForm from "../components/AwardChartForm";
 import EditAwardChartValue from "../components/EditAwardChartValue";
 import useAuthUser from "../hook/getUser";
+import ValueIndicator from "../components/ValueIndicator";
+import FullScreenSpinner from "../components/FullScreenSpinner";
 
 const TABLE_HEAD = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
 
@@ -56,7 +58,7 @@ const TABLE_ROWS = [
 	}
 ];
 
-const AwardChart = () => {
+const AwardChart = ({setIsLoading}) => {
 	const userInfo = useAuthUser();
 	const [data, setData] = useState([])
 	const [dialogOpen, setDialogOpen] = useState(false);
@@ -70,12 +72,17 @@ const AwardChart = () => {
 	}, [])
 
 	const reloadTableData = () => {
+		setIsLoading(true);
 		axios.get('http://localhost:8080/awardCharts')
 		.then(res => {
 			console.log(res.data)
 			setData(mapData(res.data));
+			setIsLoading(false);
 		})
-		.catch(err => console.log(err))
+		.catch(err => {
+			console.log(err);
+			setIsLoading(false);
+		})
 	}
 
 	const mapData = (data) => {
@@ -134,6 +141,12 @@ const AwardChart = () => {
 		handleDialogOpen();
 	}
 
+	const initEditDialog = (data) => {
+		setIsEdit(true);
+		setCurrentRecord(data);
+		handleDialogOpen();
+	}
+
 	const createSubmitionHandler = (data) => {
 		console.log(data);
 		axios.post('http://localhost:8080/awardCharts', data)
@@ -159,8 +172,8 @@ const AwardChart = () => {
 		resetValues();
 	}
 
-	const deleteHandler = (id) => {
-		axios.delete('http://localhost:8080/awardCharts/' + id)
+	const deleteHandler = (category) => {
+		axios.delete('http://localhost:8080/awardCharts/' + category)
 		.then(res => {
 			console.log(res.data);
 			reloadTableData();
@@ -243,68 +256,33 @@ const AwardChart = () => {
 											</td>
 
 											<td className={classes}>
-												<EditAwardChartValue
-													editHandler={editSubmitionHandler}
-													valueName={'Points'}
-													data={{category, ...rewardSaver}} 
-													userInfo={userInfo}>
-														<Typography variant="small" color="blue-gray" 
-															className="font-normal cursor-pointer">
-															{rewardSaver.points}
-														</Typography>
-												</EditAwardChartValue>
+												<ValueIndicator value={rewardSaver.points} data={{category, ...rewardSaver}}
+													clickHandler={initEditDialog} comparedValue={rewardSaver.points} 
+													specialColor={'blue'} specialWord={''} />
 											</td>
 
 											<td className={classes}>
-												<EditAwardChartValue
-													editHandler={editSubmitionHandler}
-													valueName={'Points'}
-													data={{category, ...standard}} 
-													userInfo={userInfo}>
-														<Typography variant="small" color="blue-gray" 
-															className="font-normal cursor-pointer">
-															{standard.points}
-														</Typography>
-												</EditAwardChartValue>
+												<ValueIndicator value={standard.points} data={{category, ...standard}}
+													clickHandler={initEditDialog} comparedValue={standard.points} 
+													specialColor={'blue'} specialWord={''} />
 											</td>
 
 											<td className={classes}>
-												<EditAwardChartValue 
-													editHandler={editSubmitionHandler}
-													valueName={'Points'}
-													data={{category, ...basePeak}} 
-													userInfo={userInfo}>
-														<Typography variant="small" color="blue-gray" 
-															className="font-normal cursor-pointer">
-															{basePeak.points}
-														</Typography>
-												</EditAwardChartValue>
+												<ValueIndicator value={basePeak.points} data={{category, ...basePeak}}
+													clickHandler={initEditDialog} comparedValue={basePeak.points} 
+													specialColor={'blue'} specialWord={''} />
 											</td>
 											
 											<td className={classes}>
-												<EditAwardChartValue 
-													editHandler={editSubmitionHandler}
-													valueName={'Points'}
-													data={{category, ...premium}} 
-													userInfo={userInfo}>
-														<Typography variant="small" color="blue-gray" 
-															className="font-normal cursor-pointer">
-															{premium.points}
-														</Typography>
-												</EditAwardChartValue>
+												<ValueIndicator value={premium.points} data={{category, ...premium}}
+													clickHandler={initEditDialog} comparedValue={premium.points} 
+													specialColor={'yellow'} specialWord={''} />
 											</td>
 
 											<td className={classes}>
-												<EditAwardChartValue 
-													editHandler={editSubmitionHandler}
-													valueName={'Points'}
-													data={{category, ...premiumPeak}} 
-													userInfo={userInfo}>
-														<Typography variant="small" color="blue-gray" 
-															className="font-normal cursor-pointer">
-															{premiumPeak.points}
-														</Typography>
-												</EditAwardChartValue>
+												<ValueIndicator value={premiumPeak.points} data={{category, ...premiumPeak}}
+													clickHandler={initEditDialog} comparedValue={premiumPeak.points} 
+													specialColor={'yellow'} specialWord={''} />
 											</td>
 
 											<td className={classes}>
