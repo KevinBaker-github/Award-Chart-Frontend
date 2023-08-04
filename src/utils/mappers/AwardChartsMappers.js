@@ -15,8 +15,8 @@ export const mapAwardChartsList = (data) => {
         mapped['category'] = currentNode['category']
 
         if(currentNode['roomCategories'].length){ // Exists Room Categories (MUST HAVE)
-            let standardPosition = 0;
-            let premiumPosition = 0;
+            let standardPosition = -1;
+            let premiumPosition = -1;
 
             if(currentNode['roomCategories'][0]?.name === 'Standard') {
                 standardPosition = 0; // Not required, but just in case
@@ -30,42 +30,76 @@ export const mapAwardChartsList = (data) => {
                 premiumPosition = 1;
             }
 
-            // Standards
-            const standardPricingLevels = currentNode['roomCategories'][standardPosition]['pricingLevels'];
+            if(standardPosition != -1){
+                // Standards
+                const standardPricingLevels = currentNode['roomCategories'][standardPosition]['pricingLevels'];
 
-            let rewardSaver = {}
-            rewardSaver['roomCategory'] = 'Standard'
-            rewardSaver['pricingLevel'] = 'RewardSaver'
-            rewardSaver['points'] = standardPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(standardPricingLevels, 'RewardSaver');
-            mapped['rewardSaver'] = rewardSaver
+                let rewardSaver = {}
+                rewardSaver['roomCategory'] = 'Standard'
+                rewardSaver['pricingLevel'] = 'RewardSaver'
+                rewardSaver['points'] = standardPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(standardPricingLevels, 'RewardSaver');
+                mapped['rewardSaver'] = rewardSaver
 
-            let standard = {}
-            standard['roomCategory'] = 'Standard'
-            standard['pricingLevel'] = 'Standard'
-            standard['points'] = standardPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(standardPricingLevels, 'Standard');
-            mapped['standard'] = standard
+                let standard = {}
+                standard['roomCategory'] = 'Standard'
+                standard['pricingLevel'] = 'Standard'
+                standard['points'] = standardPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(standardPricingLevels, 'Standard');
+                mapped['standard'] = standard
 
-            let basePeak = {}
-            basePeak['roomCategory'] = 'Standard'
-            basePeak['pricingLevel'] = 'BasePeak'
-            basePeak['points'] = standardPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(standardPricingLevels, 'BasePeak');
-            mapped['basePeak'] = basePeak
+                let basePeak = {}
+                basePeak['roomCategory'] = 'Standard'
+                basePeak['pricingLevel'] = 'BasePeak'
+                basePeak['points'] = standardPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(standardPricingLevels, 'BasePeak');
+                mapped['basePeak'] = basePeak
+            } else {
+                let rewardSaver = {}
+                rewardSaver['roomCategory'] = 'Standard'
+                rewardSaver['pricingLevel'] = 'RewardSaver'
+                rewardSaver['points'] = '0'
+                mapped['rewardSaver'] = rewardSaver
+
+                let standard = {}
+                standard['roomCategory'] = 'Standard'
+                standard['pricingLevel'] = 'Standard'
+                standard['points'] = '0'
+                mapped['standard'] = standard
+
+                let basePeak = {}
+                basePeak['roomCategory'] = 'Standard'
+                basePeak['pricingLevel'] = 'BasePeak'
+                basePeak['points'] = '0'
+                mapped['basePeak'] = basePeak
+            }
+
+            if(premiumPosition != -1){
+                // Premiums
+                const premiumPricingLevels = currentNode['roomCategories'][premiumPosition]['pricingLevels'];
+
+                let premium = {}
+                premium['roomCategory'] = 'Premium'
+                premium['pricingLevel'] = 'Premium'
+                premium['points'] = premiumPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(premiumPricingLevels, 'Premium');
+                mapped['premium'] = premium
+
+                let premiumPeak = {}
+                premiumPeak['roomCategory'] = 'Premium'
+                premiumPeak['pricingLevel'] = 'PremiumPeak'
+                premiumPeak['points'] = premiumPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(premiumPricingLevels, 'PremiumPeak');
+                mapped['premiumPeak'] = premiumPeak
+            } else {
+                let premium = {}
+                premium['roomCategory'] = 'Premium'
+                premium['pricingLevel'] = 'Premium'
+                premium['points'] = '0'
+                mapped['premium'] = premium
+
+                let premiumPeak = {}
+                premiumPeak['roomCategory'] = 'Premium'
+                premiumPeak['pricingLevel'] = 'PremiumPeak'
+                premiumPeak['points'] = '0'
+                mapped['premiumPeak'] = premiumPeak
+            }
             
-            
-            // Premiums
-            const premiumPricingLevels = currentNode['roomCategories'][premiumPosition]['pricingLevels'];
-
-            let premium = {}
-            premium['roomCategory'] = 'Premium'
-            premium['pricingLevel'] = 'Premium'
-            premium['points'] = premiumPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(premiumPricingLevels, 'Premium');
-            mapped['premium'] = premium
-
-            let premiumPeak = {}
-            premiumPeak['roomCategory'] = 'Premium'
-            premiumPeak['pricingLevel'] = 'PremiumPeak'
-            premiumPeak['points'] = premiumPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(premiumPricingLevels, 'PremiumPeak');
-            mapped['premiumPeak'] = premiumPeak
         }
         
         dataMapped.push(mapped)
@@ -78,7 +112,7 @@ export const mapAwardChartsList = (data) => {
 
 function extractPricingLevelPoints(pricingLevelList, pricingLevelName){
     let defaultPoints = '0';
-    for(let j=0; pricingLevelList.length; j++){
+    for(let j=0; j < pricingLevelList.length; j++){
         if(pricingLevelList[j].pricingLevel === pricingLevelName){
             return pricingLevelList[j].points;
         }

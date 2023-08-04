@@ -16,7 +16,6 @@ import { useEffect, useState } from "react";
 import AwardChartForm from "../components/AwardChartForm";
 import ValueIndicator from "../components/ValueIndicator";
 import * as AwardChartService from '../services/awardCharts/awardChartsService';
-// import * as AwardChartsMappers from '../utils/mappers/AwardChartsMappers';
 import { mapAwardChartsList } from '../utils/mappers/AwardChartsMappers';
 
 const TABLE_HEAD = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
