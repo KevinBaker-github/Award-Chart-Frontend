@@ -9,7 +9,7 @@ import {
  * @param {*} param0 
  * @returns 
  */
-const ValueIndicator = ({value, data, clickHandler, comparedValue, specialColor, specialWord}) => {
+const ValueIndicator = ({value, data, clickHandler, comparedValue, specialColor, specialWord, isClickable}) => {
     
     return (
         <>
@@ -22,7 +22,7 @@ const ValueIndicator = ({value, data, clickHandler, comparedValue, specialColor,
                         value={specialWord ? specialWord : value}
                         color={specialColor? specialColor : "blue-gray" }
                         className="cursor-pointer hover:scale-110"
-                        onClick={() => clickHandler(data)}
+                        onClick={() => isClickable ? clickHandler(data) : <></>}
                     />
 		        </div>
             ): (

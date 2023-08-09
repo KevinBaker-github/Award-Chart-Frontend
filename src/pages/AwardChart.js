@@ -17,6 +17,8 @@ import AwardChartForm from "../components/AwardChartForm";
 import ValueIndicator from "../components/ValueIndicator";
 import * as AwardChartService from '../services/awardCharts/awardChartsService';
 import { mapAwardChartsList } from '../utils/mappers/AwardChartsMappers';
+import NotificationDialog from "../components/general/NotificationDialog";
+import { manageAwardChartCreationError } from "../utils/helpers/awardChart/AwardChartsErrorsHelper";
 
 const TABLE_HEAD = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
 
@@ -26,8 +28,12 @@ const AwardChart = ({setIsLoading}) => {
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [isEdit, setIsEdit] = useState(false); // Use if edit by modal
 	const [currentRecord, setCurrentRecord] = useState({}); // Use if edit by modal
+	const [displayMessage, setDisplayMessage] = useState('This is a message');
+	const [notificationCategory, setNotificationCategory] = useState('success');
+	const [notificationOpen, setNotificationOpen] = useState(false);
 
   	const handleDialogOpen = () => setDialogOpen((currentState) => !currentState);
+	const handleNotificationOpen = () => setNotificationOpen((currentState) => !currentState);
 
 	useEffect(()=> {
 		reloadTableData();
@@ -64,6 +70,9 @@ const AwardChart = ({setIsLoading}) => {
 			reloadTableData();
 		})
 		.catch(err => {
+			console.log(err);
+			setNotificationCategory('error');
+			manageAwardChartCreationError(err, setNotificationOpen, setDisplayMessage);
 			setIsLoading(false);
 		})
 		resetValues();
@@ -102,7 +111,10 @@ const AwardChart = ({setIsLoading}) => {
 		<FullScreen>
 			<AwardChartForm dialogOpen={dialogOpen} modalHandler={handleDialogOpen} 
 				creationHandler={createSubmitionHandler} editionHandler={editSubmitionHandler} 
-				isEdit={isEdit} defaultData={currentRecord}/>
+				isEdit={isEdit} defaultData={currentRecord} />
+			<NotificationDialog title={''} description={displayMessage} dialogOpen={notificationOpen} 
+				dialogHandler={handleNotificationOpen} notificationCategory={notificationCategory}/>
+
 			<CardContainer>
 				<CardHeader floated={false} shadow={false} className="rounded-none">
 					<div className="flex flex-col items-start">
@@ -167,31 +179,36 @@ const AwardChart = ({setIsLoading}) => {
 											<td className={classes}>
 												<ValueIndicator value={rewardSaver.points} data={{category, ...rewardSaver}}
 													clickHandler={initEditDialog} comparedValue={rewardSaver.points} 
-													specialColor={'blue'} specialWord={''} />
+													specialColor={'blue'} specialWord={rewardSaver.points === '' ? 'N/A' : rewardSaver.points} 
+													isClickable={rewardSaver.points !== ''} />
 											</td>
 
 											<td className={classes}>
 												<ValueIndicator value={standard.points} data={{category, ...standard}}
 													clickHandler={initEditDialog} comparedValue={standard.points} 
-													specialColor={'blue'} specialWord={''} />
+													specialColor={'blue'} specialWord={standard.points === '' ? 'N/A' : standard.points} 
+													isClickable={standard.points !== ''} />
 											</td>
 
 											<td className={classes}>
 												<ValueIndicator value={basePeak.points} data={{category, ...basePeak}}
 													clickHandler={initEditDialog} comparedValue={basePeak.points} 
-													specialColor={'blue'} specialWord={''} />
+													specialColor={'blue'} specialWord={basePeak.points === '' ? 'N/A' : basePeak.points} 
+													isClickable={basePeak.points !== ''} />
 											</td>
 											
 											<td className={classes}>
 												<ValueIndicator value={premium.points} data={{category, ...premium}}
 													clickHandler={initEditDialog} comparedValue={premium.points} 
-													specialColor={'yellow'} specialWord={''} />
+													specialColor={'yellow'} specialWord={premium.points === '' ? 'N/A' : premium.points} 
+													isClickable={premium.points !== ''} />
 											</td>
 
 											<td className={classes}>
 												<ValueIndicator value={premiumPeak.points} data={{category, ...premiumPeak}}
 													clickHandler={initEditDialog} comparedValue={premiumPeak.points} 
-													specialColor={'yellow'} specialWord={''} />
+													specialColor={'yellow'} specialWord={premiumPeak.points === '' ? 'N/A' : premiumPeak.points}
+													isClickable={premiumPeak.points !== ''} />
 											</td>
 
 											<td className={classes}>
