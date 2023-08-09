@@ -179,31 +179,36 @@ const AwardChart = ({setIsLoading}) => {
 											<td className={classes}>
 												<ValueIndicator value={rewardSaver.points} data={{category, ...rewardSaver}}
 													clickHandler={initEditDialog} comparedValue={rewardSaver.points} 
-													specialColor={'blue'} specialWord={''} />
+													specialColor={'blue'} specialWord={rewardSaver.points === '' ? 'N/A' : rewardSaver.points} 
+													isClickable={rewardSaver.points !== ''} />
 											</td>
 
 											<td className={classes}>
 												<ValueIndicator value={standard.points} data={{category, ...standard}}
 													clickHandler={initEditDialog} comparedValue={standard.points} 
-													specialColor={'blue'} specialWord={''} />
+													specialColor={'blue'} specialWord={standard.points === '' ? 'N/A' : standard.points} 
+													isClickable={standard.points !== ''} />
 											</td>
 
 											<td className={classes}>
 												<ValueIndicator value={basePeak.points} data={{category, ...basePeak}}
 													clickHandler={initEditDialog} comparedValue={basePeak.points} 
-													specialColor={'blue'} specialWord={''} />
+													specialColor={'blue'} specialWord={basePeak.points === '' ? 'N/A' : basePeak.points} 
+													isClickable={basePeak.points !== ''} />
 											</td>
 											
 											<td className={classes}>
 												<ValueIndicator value={premium.points} data={{category, ...premium}}
 													clickHandler={initEditDialog} comparedValue={premium.points} 
-													specialColor={'yellow'} specialWord={''} />
+													specialColor={'yellow'} specialWord={premium.points === '' ? 'N/A' : premium.points} 
+													isClickable={premium.points !== ''} />
 											</td>
 
 											<td className={classes}>
 												<ValueIndicator value={premiumPeak.points} data={{category, ...premiumPeak}}
 													clickHandler={initEditDialog} comparedValue={premiumPeak.points} 
-													specialColor={'yellow'} specialWord={''} />
+													specialColor={'yellow'} specialWord={premiumPeak.points === '' ? 'N/A' : premiumPeak.points}
+													isClickable={premiumPeak.points !== ''} />
 											</td>
 
 											<td className={classes}>

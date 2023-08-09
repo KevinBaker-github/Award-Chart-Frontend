@@ -37,37 +37,37 @@ export const mapAwardChartsList = (data) => {
                 let rewardSaver = {}
                 rewardSaver['roomCategory'] = 'Standard'
                 rewardSaver['pricingLevel'] = 'RewardSaver'
-                rewardSaver['points'] = standardPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(standardPricingLevels, 'RewardSaver');
+                rewardSaver['points'] = standardPricingLevels.length === 0 ? '' : extractPricingLevelPoints(standardPricingLevels, 'RewardSaver');
                 mapped['rewardSaver'] = rewardSaver
 
                 let standard = {}
                 standard['roomCategory'] = 'Standard'
                 standard['pricingLevel'] = 'Standard'
-                standard['points'] = standardPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(standardPricingLevels, 'Standard');
+                standard['points'] = standardPricingLevels.length === 0 ? '' : extractPricingLevelPoints(standardPricingLevels, 'Standard');
                 mapped['standard'] = standard
 
                 let basePeak = {}
                 basePeak['roomCategory'] = 'Standard'
                 basePeak['pricingLevel'] = 'BasePeak'
-                basePeak['points'] = standardPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(standardPricingLevels, 'BasePeak');
+                basePeak['points'] = standardPricingLevels.length === 0 ? '' : extractPricingLevelPoints(standardPricingLevels, 'BasePeak');
                 mapped['basePeak'] = basePeak
             } else {
                 let rewardSaver = {}
                 rewardSaver['roomCategory'] = 'Standard'
                 rewardSaver['pricingLevel'] = 'RewardSaver'
-                rewardSaver['points'] = '0'
+                rewardSaver['points'] = ''
                 mapped['rewardSaver'] = rewardSaver
 
                 let standard = {}
                 standard['roomCategory'] = 'Standard'
                 standard['pricingLevel'] = 'Standard'
-                standard['points'] = '0'
+                standard['points'] = ''
                 mapped['standard'] = standard
 
                 let basePeak = {}
                 basePeak['roomCategory'] = 'Standard'
                 basePeak['pricingLevel'] = 'BasePeak'
-                basePeak['points'] = '0'
+                basePeak['points'] = ''
                 mapped['basePeak'] = basePeak
             }
 
@@ -78,25 +78,25 @@ export const mapAwardChartsList = (data) => {
                 let premium = {}
                 premium['roomCategory'] = 'Premium'
                 premium['pricingLevel'] = 'Premium'
-                premium['points'] = premiumPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(premiumPricingLevels, 'Premium');
+                premium['points'] = premiumPricingLevels.length === 0 ? '' : extractPricingLevelPoints(premiumPricingLevels, 'Premium');
                 mapped['premium'] = premium
 
                 let premiumPeak = {}
                 premiumPeak['roomCategory'] = 'Premium'
                 premiumPeak['pricingLevel'] = 'PremiumPeak'
-                premiumPeak['points'] = premiumPricingLevels.length === 0 ? '0' : extractPricingLevelPoints(premiumPricingLevels, 'PremiumPeak');
+                premiumPeak['points'] = premiumPricingLevels.length === 0 ? '' : extractPricingLevelPoints(premiumPricingLevels, 'PremiumPeak');
                 mapped['premiumPeak'] = premiumPeak
             } else {
                 let premium = {}
                 premium['roomCategory'] = 'Premium'
                 premium['pricingLevel'] = 'Premium'
-                premium['points'] = '0'
+                premium['points'] = ''
                 mapped['premium'] = premium
 
                 let premiumPeak = {}
                 premiumPeak['roomCategory'] = 'Premium'
                 premiumPeak['pricingLevel'] = 'PremiumPeak'
-                premiumPeak['points'] = '0'
+                premiumPeak['points'] = ''
                 mapped['premiumPeak'] = premiumPeak
             }
             
@@ -111,7 +111,7 @@ export const mapAwardChartsList = (data) => {
 
 
 function extractPricingLevelPoints(pricingLevelList, pricingLevelName){
-    let defaultPoints = '0';
+    let defaultPoints = '';
     for(let j=0; j < pricingLevelList.length; j++){
         if(pricingLevelList[j].pricingLevel === pricingLevelName){
             return pricingLevelList[j].points;
