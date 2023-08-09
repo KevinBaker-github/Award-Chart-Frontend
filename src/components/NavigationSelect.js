@@ -9,8 +9,8 @@ const NavigationSelect = ({label}) => {
             <Link to="/awardChart">
                 <Option className="text-black bg-white">Award Chart</Option>
             </Link>
-            <Link to="/awardChart">
-                <Option className="text-black bg-white">Prop Category</Option>
+            <Link to="/calculation">
+                <Option className="text-black bg-white">Calculation</Option>
             </Link>
             <Link to="/awardChart">
                 <Option className="text-black bg-white">System Defaults</Option>
