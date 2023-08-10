@@ -10,6 +10,7 @@ import StandardButton from "../components/StandardButton";
 import { useForm } from "react-hook-form";
 import useAuthUser from "../hook/getUser";
 import * as calculationService from '../services/calculation/calculationService';
+import IdleManagement from "../components/general/IdleManagement";
 
 const Calculation = ({setIsLoading}) => {
 	const [data, setData] = useState({})
@@ -42,7 +43,6 @@ const Calculation = ({setIsLoading}) => {
 		calculationService.calculate(data)
 		.then(res => {
 			console.log(res.data);
-			reset({}); //TODO: Clean up
 			setData(res.data);
 			setIsLoading(false);
 			//TODO: SHOW RESPONSE
@@ -56,7 +56,7 @@ const Calculation = ({setIsLoading}) => {
 
 	return (
 		<FullScreen>
-
+			
 			<CardContainer>
 				<CardHeader floated={false} shadow={false} className="rounded-none">
 					<div className="flex flex-col items-start">

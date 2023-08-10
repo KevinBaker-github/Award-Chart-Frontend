@@ -110,7 +110,7 @@ const AwardChart = ({setIsLoading}) => {
 
 	return (
 		<FullScreen>
-			<IdleManagement />
+			
 			<AwardChartForm dialogOpen={dialogOpen} modalHandler={handleDialogOpen} 
 				creationHandler={createSubmitionHandler} editionHandler={editSubmitionHandler} 
 				isEdit={isEdit} defaultData={currentRecord} />
