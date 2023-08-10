@@ -1,6 +1,5 @@
 import { Route, Switch, useHistory } from "react-router-dom";
 import { Security, SecureRoute, LoginCallback } from "@okta/okta-react";
-import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import { oktaConfig } from "./config";
 import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
