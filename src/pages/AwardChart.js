@@ -19,6 +19,7 @@ import * as AwardChartService from '../services/awardCharts/awardChartsService';
 import { mapAwardChartsList } from '../utils/mappers/AwardChartsMappers';
 import NotificationDialog from "../components/general/NotificationDialog";
 import { manageAwardChartCreationError } from "../utils/helpers/awardChart/AwardChartsErrorsHelper";
+import IdleManagement from "../components/general/IdleManagement";
 
 const TABLE_HEAD = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
 
@@ -109,12 +110,12 @@ const AwardChart = ({setIsLoading}) => {
 
 	return (
 		<FullScreen>
+			<IdleManagement />
 			<AwardChartForm dialogOpen={dialogOpen} modalHandler={handleDialogOpen} 
 				creationHandler={createSubmitionHandler} editionHandler={editSubmitionHandler} 
 				isEdit={isEdit} defaultData={currentRecord} />
 			<NotificationDialog title={''} description={displayMessage} dialogOpen={notificationOpen} 
 				dialogHandler={handleNotificationOpen} notificationCategory={notificationCategory}/>
-
 			<CardContainer>
 				<CardHeader floated={false} shadow={false} className="rounded-none">
 					<div className="flex flex-col items-start">
