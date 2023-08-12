@@ -19,12 +19,34 @@ import * as AwardChartService from '../services/awardCharts/awardChartsService';
 import { mapAwardChartsList } from '../utils/mappers/AwardChartsMappers';
 import NotificationDialog from "../components/general/NotificationDialog";
 import { manageAwardChartCreationError } from "../utils/helpers/awardChart/AwardChartsErrorsHelper";
-import IdleManagement from "../components/general/IdleManagement";
+import AwardChartsDataTable from "../components/general/AwardChartsDataTable";
 
-const TABLE_HEAD = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
+const tableHeaders = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
+
+const rowsPerPageList = [
+	{
+	  key: 1,
+	  value: 3,
+	},
+	{
+	  key: 2,
+	  value: 4,
+	},
+	{
+	  key: 3,
+	  value: 5,
+	},
+];
+
+// const searchableColumns = ["category"];
+
+const searchableColumns = [
+	{"level1": "category", "level2": ""},
+	{"level1": "rewardSaver", "level2": "points"}
+];
 
 
-const AwardChart = ({setIsLoading}) => {
+const AwardChart = ({isLoading, setIsLoading}) => {
 	const [data, setData] = useState([])
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [isEdit, setIsEdit] = useState(false); // Use if edit by modal
@@ -32,6 +54,7 @@ const AwardChart = ({setIsLoading}) => {
 	const [displayMessage, setDisplayMessage] = useState('This is a message');
 	const [notificationCategory, setNotificationCategory] = useState('success');
 	const [notificationOpen, setNotificationOpen] = useState(false);
+	const [dataError, setDataError] = useState(false);
 
   	const handleDialogOpen = () => setDialogOpen((currentState) => !currentState);
 	const handleNotificationOpen = () => setNotificationOpen((currentState) => !currentState);
@@ -46,9 +69,11 @@ const AwardChart = ({setIsLoading}) => {
 		.then(res => {
 			console.log(res.data);
 			setData(mapAwardChartsList(res.data));
+			setDataError(false);
 			setIsLoading(false);
 		})
 		.catch(err => {
+			setDataError(true);
 			setIsLoading(false);
 		})
 	}
@@ -68,12 +93,14 @@ const AwardChart = ({setIsLoading}) => {
 		setIsLoading(true);
 		AwardChartService.createAwardChart(data)
 		.then(res => {
+			setDataError(false);
 			reloadTableData();
 		})
 		.catch(err => {
 			console.log(err);
 			setNotificationCategory('error');
 			manageAwardChartCreationError(err, setNotificationOpen, setDisplayMessage);
+			setDataError(true);
 			setIsLoading(false);
 		})
 		resetValues();
@@ -83,9 +110,11 @@ const AwardChart = ({setIsLoading}) => {
 		setIsLoading(true);
 		AwardChartService.editAwardChart(data)
 		.then(res => {
+			setDataError(false);
 			reloadTableData();
 		})
 		.catch(err => {
+			setDataError(true);
 			setIsLoading(false);
 		})
 		resetValues();
@@ -95,9 +124,11 @@ const AwardChart = ({setIsLoading}) => {
 		setIsLoading(true);
 		AwardChartService.deleteAwardChart(category)
 		.then(res => {
+			setDataError(false);
 			reloadTableData();
 		})
 		.catch(err => {
+			setDataError(true);
 			setIsLoading(false);
 		})
 		resetValues();
@@ -110,13 +141,13 @@ const AwardChart = ({setIsLoading}) => {
 
 	return (
 		<FullScreen>
-			
 			<AwardChartForm dialogOpen={dialogOpen} modalHandler={handleDialogOpen} 
 				creationHandler={createSubmitionHandler} editionHandler={editSubmitionHandler} 
 				isEdit={isEdit} defaultData={currentRecord} />
 			<NotificationDialog title={''} description={displayMessage} dialogOpen={notificationOpen} 
 				dialogHandler={handleNotificationOpen} notificationCategory={notificationCategory}/>
-			<CardContainer>
+			
+			{/* <CardContainer>
 				<CardHeader floated={false} shadow={false} className="rounded-none">
 					<div className="flex flex-col items-start">
 						<Typography variant="h4" color="blue-gray">
@@ -150,7 +181,7 @@ const AwardChart = ({setIsLoading}) => {
 										<th colSpan="2" className="text-center border-blue-gray-600 bg-yellow-200 p-2 rounded-tl-md rounded-tr-md">Premium</th>
 									</tr>
 									<tr>
-										{TABLE_HEAD.map((head, index) => (
+										{tableHeaders.map((head, index) => (
 											<th
 											key={head}
 											className="border-blue-gray-100 bg-blue-gray-100 p-4">
@@ -241,7 +272,44 @@ const AwardChart = ({setIsLoading}) => {
 					</Button>
 					</div>
 				</CardFooter>
+			</CardContainer> */}
+
+
+
+
+
+			{/* PLAYGROUND */}
+			<CardContainer>
+				<CardHeader floated={false} shadow={false} className="rounded-none">
+					<div className="flex flex-col items-start">
+						<Typography variant="h4" color="blue-gray">
+							Award Chart
+						</Typography>
+						<Typography color="gray" className="mt-2 font-normal">
+							Here you can add new award charts for multiple categories.
+						</Typography>
+					</div>
+				</CardHeader>
+	
+				<CardBody className="px-4">
+					<div className="flex w-[50%] justify-start gap-4">
+						<Button variant="gradient" className="from-black to-blue-gray-900 hover:scale-105"
+							onClick={initCreateDialog}>
+							CREATE
+						</Button>
+					</div>
+
+					<div className="w-full mt-8">
+						<AwardChartsDataTable headers={tableHeaders} data={data} 
+							isLoading={isLoading} searchableColumns={searchableColumns}
+							rowsPerPageList={rowsPerPageList} dataError={dataError} 
+							itemClickHandler={initEditDialog} deleteHandler={deleteHandler} />
+					</div>
+
+				</CardBody>
+	
 			</CardContainer>
+
 		</FullScreen>
 	);
 };

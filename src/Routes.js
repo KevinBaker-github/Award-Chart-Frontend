@@ -28,7 +28,7 @@ const Routes = ({isLoading, setIsLoading}) => {
 				<IdleManagement />
 				<Switch>
 					<SecureRoute path="/" exact={true} component={Wellcome} />
-					<SecureRoute path="/awardChart" exact={true} render={(props) => <AwardChart {...props} setIsLoading={setIsLoading}/>} />
+					<SecureRoute path="/awardChart" exact={true} render={(props) => <AwardChart {...props} isLoading={isLoading} setIsLoading={setIsLoading}/>} />
 					<SecureRoute path="/calculation" exact={true} render={(props) => <Calculation {...props} setIsLoading={setIsLoading}/>} />
 					<SecureRoute path="/profile" component={Profile} />
 					<Route path="/login/callback" component={LoginCallback} />
