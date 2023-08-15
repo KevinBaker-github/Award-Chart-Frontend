@@ -4,8 +4,8 @@ import { useState } from "react";
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { GrClose } from 'react-icons/gr'
 import { Button } from "@material-tailwind/react";
-import NavigationSelect from "./NavigationSelect";
-import ProfileMenu from "./ProfileMenu";
+import NavigationSelect from "../general/NavigationSelect";
+import ProfileMenu from "../general/ProfileMenu";
 
 
 /**

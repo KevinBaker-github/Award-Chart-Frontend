@@ -2,8 +2,8 @@ import {
     CardHeader,
     Typography,
 } from "@material-tailwind/react";
-import CardContainer from "../components/CardContainer";
-import FullScreen from "../components/FullScreen";
+import CardContainer from "../components/layout/CardContainer";
+import FullScreen from "../components/layout/FullScreen";
 
 
 const Wellcome = () => {

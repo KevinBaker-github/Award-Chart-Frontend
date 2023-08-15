@@ -4,17 +4,17 @@ import {
     CardHeader,
     CardBody
 } from "@material-tailwind/react";
-import CardContainer from "../components/CardContainer";
-import FullScreen from "../components/FullScreen";
+import CardContainer from "../components/layout/CardContainer";
+import FullScreen from "../components/layout/FullScreen";
 import { TfiReload } from 'react-icons/tfi'
 import { FaFileCsv, FaFilePdf } from 'react-icons/fa';
 import { useEffect, useState } from "react";
-import AwardChartForm from "../components/AwardChartForm";
+import AwardChartForm from "../components/awardChart/AwardChartForm";
 import * as AwardChartService from '../services/awardCharts/awardChartsService';
 import { mapAwardChartsList } from '../utils/mappers/AwardChartsMappers';
 import NotificationDialog from "../components/general/NotificationDialog";
 import { manageAwardChartCreationError } from "../utils/helpers/awardChart/AwardChartsErrorsHelper";
-import AwardChartsDataTable from "../components/general/AwardChartsDataTable";
+import AwardChartsDataTable from "../components/awardChart/AwardChartsDataTable";
 
 const tableHeaders = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
 
@@ -185,12 +185,12 @@ const AwardChart = ({isLoading, setIsLoading}) => {
 							<TfiReload/>
 						</Button>
 						<Button variant="gradient" className="flex items-center gap-2 from-black to-blue-gray-900 hover:scale-105"
-							onClick={generateCsvHandler}>
+							onClick={generateCsvHandler} disabled={dataError ? true : false}>
 							CSV
 							<FaFileCsv size={22}/>
 						</Button>
 						<Button variant="gradient" className="flex items-center gap-2 from-black to-blue-gray-900 hover:scale-105"
-							onClick={generateCsvHandler}>
+							onClick={generateCsvHandler} disabled={dataError ? true : false}>
 							PDF
 							<FaFilePdf size={22}/>
 						</Button>

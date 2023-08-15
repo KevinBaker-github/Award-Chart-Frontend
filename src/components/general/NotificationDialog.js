@@ -1,7 +1,7 @@
 import {
     Typography
 } from "@material-tailwind/react";
-import CenteredDialog from "../CenteredDialog";
+import CenteredDialog from "../layout/CenteredDialog";
 import { IconButton } from "@material-tailwind/react";
 import { FaRegFrownOpen } from 'react-icons/fa'
 import { VscError } from 'react-icons/vsc';

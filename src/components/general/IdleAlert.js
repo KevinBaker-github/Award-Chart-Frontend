@@ -1,6 +1,6 @@
 import { Alert, Button, Typography } from "@material-tailwind/react";
 import { GoAlertFill } from 'react-icons/go'
-import StandardButton from "../StandardButton";
+import StandardButton from "./StandardButton";
 
 
 /**
