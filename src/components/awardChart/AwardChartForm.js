@@ -2,10 +2,10 @@ import {
     Input,
     Typography,
 } from "@material-tailwind/react";
-import CenteredDialog from "./CenteredDialog";
+import CenteredDialog from "../layout/CenteredDialog";
 import { useForm } from "react-hook-form";
-import StandardButton from "./StandardButton";
-import useAuthUser from "../hook/getUser";
+import StandardButton from "../general/StandardButton";
+import useAuthUser from "../../hook/getUser";
 import { useEffect, useState } from "react";
 
 

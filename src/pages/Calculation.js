@@ -3,10 +3,10 @@ import {
     Typography,
     CardHeader,
     CardBody} from "@material-tailwind/react";
-import CardContainer from "../components/CardContainer";
-import FullScreen from "../components/FullScreen";
+import CardContainer from "../components/layout/CardContainer";
+import FullScreen from "../components/layout/FullScreen";
 import { useState } from "react";
-import StandardButton from "../components/StandardButton";
+import StandardButton from "../components/general/StandardButton";
 import { useForm } from "react-hook-form";
 import useAuthUser from "../hook/getUser";
 import * as calculationService from '../services/calculation/calculationService';
