@@ -3,7 +3,7 @@ import { useOktaAuth } from "@okta/okta-react";
 import { useState } from "react";
 
 /**
- * 
+ * Idle timeout hook to use accross all pages
  * @param {onIdle} - function to notify user when idle timeout is close
  * @param {idleTime} - number of seconds to wait before user is logged out, default 300 seconds
  * @returns 

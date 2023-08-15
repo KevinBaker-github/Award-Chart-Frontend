@@ -1,9 +1,24 @@
-import { Select, Option, Input, Alert, Typography, Tooltip, IconButton, Card } from "@material-tailwind/react";
-import { AiOutlineSearch, AiFillDelete } from 'react-icons/ai'
+import { Typography, Tooltip, IconButton, Card } from "@material-tailwind/react";
+import { AiFillDelete } from 'react-icons/ai'
 import StandardPagination from "./StandardPagination";
 import { useEffect, useRef, useState } from "react";
 import ValueIndicator from "../ValueIndicator";
+import StandardDropdown from "./StandardDropdown";
+import StandardSearchInput from "./StandardSearchInput";
 
+
+/**
+ * Data table for award charts page.
+ * @param {*} headers - header list as json
+ * @param {*} data - data list as json
+ * @param {*} isLoading - boolean to indicate if it is loading
+ * @param {*} searchableColumns - list of searchable columns in the column
+ * @param {*} rowsPerPageList - list of elements for the rows per page dropdown
+ * @param {*} dataError - data error from the caller
+ * @param {*} itemClickHandler - handler for the item's click
+ * @param {*} deleteHandler - handler for the delete button
+ * @returns 
+ */
 const AwardChartsDataTable = ({
     headers,
     data,
@@ -73,20 +88,14 @@ const AwardChartsDataTable = ({
 
     const paginationHandler = (pageNumber) => setCurrentPage(pageNumber);
 
-    const handleRowsPerPageChange = (option) => { //TODO: Pending...
+    const handleRowsPerPageChange = (option) => {
         setCurrentPage(1);
         setRowsPerPage(option.value);
     };
 
-    const handleClickSearch = (e) => {
-      e.preventDefault();
+    const handleSearch = (targetEvent) => {
       setCurrentPage(1);
-      setSearchTerm(searchInput.current.value);
-    };
-
-    const handleSearch = (searchValue) => {
-      setCurrentPage(1);
-      setSearchTerm(searchValue);
+      setSearchTerm(targetEvent.value.trim());
     };
     
     const validateData = () => {
@@ -103,7 +112,11 @@ const AwardChartsDataTable = ({
       return (
         <tr key={0}>
           <td colSpan={headers.length + 1}>
-              <Alert color="amber">Error loading data!</Alert>
+            <div className="bg-red-500 rounded-bl-md rounded-br-md">
+              <Typography variant="small" color="blue-gray" className="font-bold py-2 text-center">
+                Error loading data!
+              </Typography>
+            </div>
           </td>
         </tr>
       );
@@ -123,8 +136,8 @@ const AwardChartsDataTable = ({
       return (
         <>
           {currentRows.map( ({category, rewardSaver, standard, basePeak, premium, premiumPeak }, index) => {
-            const isLast = index === data.length - 1;
-            const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+            const isLast = index === currentRows.length - 1;
+            const classes = isLast ? "px-4" : "px-4 border-b border-blue-gray-300";
           
             return (
               <tr key={index}>
@@ -187,7 +200,11 @@ const AwardChartsDataTable = ({
     return (
       <tr>
         <td colSpan={headers.length + 1}>
-          <Alert color="amber">No results!</Alert>
+          <div className="bg-yellow-900 rounded-bl-md rounded-br-md">
+            <Typography variant="small" color="blue-gray" className="font-bold py-2 text-center">
+              No results!
+            </Typography>
+          </div>
         </td>
       </tr>
     );
@@ -198,35 +215,38 @@ const AwardChartsDataTable = ({
     <div className="flex w-full flex-col justify-between gap-4 mt-4">
       {/* Pages size and search section */}
       <div className="flex w-full justify-between">
+          {/* Rows per page */}
           <div>
-              <Select color="blue-gray" label="Rows per page" size="md" onChange={(e) => handleRowsPerPageChange(e.target)}>
-                  <Option value="3">3</Option>
-                  <Option value="4">4</Option>
-                  <Option value="5">5</Option>
-              </Select>
+            <StandardDropdown 
+              options={rowsPerPageList}
+              setSelected={handleRowsPerPageChange}
+              defaultOption={rowsPerPageList[0].key}
+              disabled={dataError}
+            />
           </div>
+          {/* Search */}
           <div className="flex w-[50%]">
-              <Input label="Search" color="black" ref={searchInput} onChange={(e) => handleSearch(e.target.value)}
-                icon={<AiOutlineSearch className="h-5 w-5 text-black cursor-pointer hover:scale-125" 
-                  onClick={handleClickSearch} />} />
+            <StandardSearchInput placeholder={'Search...'} dataError={dataError}
+              reference={searchInput} searchHandler={handleSearch}
+            />
           </div>
       </div>
 
       {/* Table section */}
       
-      <Card className="h-full w-full rounded-md shadow-md">
+      <Card className="h-full w-full rounded-md shadow-xl">
         <table className="w-full min-w-max table-auto text-left">
           <thead>
             <tr>
               <th colSpan="1"></th>
-              <th colSpan="3" className="text-center border-blue-gray-600 bg-blue-gray-200 p-2 rounded-tl-md rounded-tr-md">Standard</th>
-              <th colSpan="2" className="text-center border-blue-gray-600 bg-yellow-200 p-2 rounded-tl-md rounded-tr-md">Premium</th>
+              <th colSpan="3" className="text-center border-blue-gray-600 bg-blue-gray-200 py-2 rounded-tl-md rounded-tr-md">Standard</th>
+              <th colSpan="2" className="text-center border-blue-gray-600 bg-yellow-400 py-2 rounded-tl-md rounded-tr-md">Premium</th>
             </tr>
             <tr>
               {headers.map((head, index) => (
                 <th
                   key={head}
-                  className="border-blue-gray-100 bg-blue-gray-100 p-4">
+                  className="border-blue-gray-100 bg-blue-gray-100 px-4 py-3">
                   <Typography
                     variant="small"
                     color="blue-gray"

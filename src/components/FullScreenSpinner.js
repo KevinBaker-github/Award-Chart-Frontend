@@ -3,7 +3,7 @@ import { Spinner } from "@material-tailwind/react";
 
 /**
  * This blocks all the screen and present an animated spinner icon
- * @param {*} param0 
+ * @param {*} isLoading 
  * @returns 
  */
 const FullScreenSpinner = ({isLoading}) => {

@@ -3,6 +3,13 @@ import { GoAlertFill } from 'react-icons/go'
 import StandardButton from "../StandardButton";
 
 
+/**
+ * Idle alert on the screen.
+ * @param {*} isOpen 
+ * @param {*} setOpen 
+ * @param {*} stayHandler - handler when the user reacts and confirm to stay on the app
+ * @returns 
+ */
 const IdleAlert = ({isOpen, setOpen, stayHandler}) => {
     
     const handleCloseAlert =() => {

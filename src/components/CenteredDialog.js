@@ -8,6 +8,14 @@ import {
   } from "@material-tailwind/react";
 
 
+/**
+ * General element to center a dialog on the screen
+ * @param {*} title 
+ * @param {*} dialogOpen 
+ * @param {*} handleDialogOpen 
+ * @param {*} children
+ * @returns 
+ */
 const CenteredDialog = ({title, dialogOpen, handleDialogOpen, children}) => {
     
     return (
