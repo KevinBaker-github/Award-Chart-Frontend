@@ -6,7 +6,13 @@ import {
 /**
  * This component displays a value and additionally allows to customize its background color
  * and a special word replacing the value depending on a condition.
- * @param {*} param0 
+ * @param {*} value 
+ * @param {*} data 
+ * @param {*} clickHandler 
+ * @param {*} comparedValue 
+ * @param {*} specialColor 
+ * @param {*} specialWord 
+ * @param {*} isClickable 
  * @returns 
  */
 const ValueIndicator = ({value, data, clickHandler, comparedValue, specialColor, specialWord, isClickable}) => {

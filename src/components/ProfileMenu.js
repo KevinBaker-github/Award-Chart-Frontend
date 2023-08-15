@@ -9,7 +9,11 @@ import {
 import { Link } from "react-router-dom";
 
 
-
+/**
+ * Profile menu for navbar
+ * @param {*} logOutHandler 
+ * @returns 
+ */
 const ProfileMenu = ({logOutHandler}) => {
 
 

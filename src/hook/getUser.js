@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useOktaAuth } from "@okta/okta-react";
 
+
+/**
+ * User authentication hook to use accross all pages
+ * @returns 
+ */
 const useAuthUser = () => {
 	const { oktaAuth, authState } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);

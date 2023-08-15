@@ -7,6 +7,11 @@ import { Button } from "@material-tailwind/react";
 import NavigationSelect from "./NavigationSelect";
 import ProfileMenu from "./ProfileMenu";
 
+
+/**
+ * Standard fixed app navbar shared by all pages.
+ * @returns 
+ */
 const AppNavbar = () => {
 	const { oktaAuth, authState } = useOktaAuth();
     const [menuOpen, setMenuOpen] = useState(false);

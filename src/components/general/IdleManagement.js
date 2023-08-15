@@ -3,6 +3,10 @@ import useIdleTimeout from "../../hook/useIdleTimeout";
 import IdleAlert from "./IdleAlert";
 
 
+/**
+ * Idle management component.
+ * @returns 
+ */
 const IdleManagement = () => {
     const idleAllowedTime = process.env.REACT_APP_IDLE_TIMEOUT_TIME ? process.env.REACT_APP_IDLE_TIMEOUT_TIME: 300;
     const [idleAlertIsOpen, setIdleAlertIsOpen] = useState(false);

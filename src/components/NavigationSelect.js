@@ -1,9 +1,13 @@
 import { Select, Option } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
-
+/**
+ * INCOMPLETE COMPONENT.
+ * @param {*} param0 
+ * @returns 
+ */
 const NavigationSelect = ({label}) => {
-    
+    //TODO: Complete this element
     return (
         <Select color="gray" label={label} className="text-black bg-white">
             <Link to="/awardChart">

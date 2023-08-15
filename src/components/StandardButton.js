@@ -3,6 +3,13 @@ import {
 } from "@material-tailwind/react";
 
 
+/**
+ * Standar button to use accross all pages and components.
+ * @param {*} message 
+ * @param {*} clickHandler 
+ * @param {*} type 
+ * @returns 
+ */
 const StandardButton = ({message, clickHandler, type}) => {
 
     return (

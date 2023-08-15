@@ -2,7 +2,11 @@ import {
     Card
 } from "@material-tailwind/react";
 
-
+/**
+ * General card container.
+ * @param {*} children 
+ * @returns 
+ */
 const CardContainer = ({children}) => {
 
     return (

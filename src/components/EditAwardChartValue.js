@@ -12,7 +12,12 @@ import StandardButton from "./StandardButton";
 /**
  * Edit Award Chart Value: Used to update a single value (Points). Contains its own form and 
  * validations. It is meant to appear just down the value to be updated.
- * @param {*} param0 
+ * <DEPRECATED>
+ * @param {*} editHandler 
+ * @param {*} valueName
+ * @param {*} data
+ * @param {*} userInfo
+ * @param {*} children
  * @returns 
  */
 const EditAwardChartValue = ({editHandler, valueName, data, userInfo, children}) => {
@@ -22,7 +27,7 @@ const EditAwardChartValue = ({editHandler, valueName, data, userInfo, children})
         reset({'points': data.points});
     }, [data]);
 
-    const calculateTime = () => { //TODO: Delete
+    const calculateTime = () => {
         var d = new Date();
         d = new Date(d.getTime() - 3000000);
         return d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString())+" "+(d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+((parseInt(d.getMinutes()/5)*5).toString().length==2?(parseInt(d.getMinutes()/5)*5).toString():"0"+(parseInt(d.getMinutes()/5)*5).toString())+":00";
