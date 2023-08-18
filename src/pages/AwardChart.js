@@ -7,8 +7,8 @@ import {
 import CardContainer from "../components/layout/CardContainer";
 import FullScreen from "../components/layout/FullScreen";
 import { TfiReload } from 'react-icons/tfi'
-import { FaFileCsv, FaFilePdf } from 'react-icons/fa';
-import { useEffect, useState } from "react";
+import { FaFileCsv, FaFilePdf, FaFileExcel } from 'react-icons/fa';
+import { useEffect, useRef, useState } from "react";
 import AwardChartForm from "../components/awardChart/AwardChartForm";
 import * as AwardChartService from '../services/awardCharts/awardChartsService';
 import { mapAwardChartsList } from '../utils/mappers/AwardChartsMappers';
@@ -21,23 +21,23 @@ const tableHeaders = ["Category", "Reward Saver", "Standard", "Base Peak", "Prem
 const rowsPerPageList = [
 	{
 	  key: 1,
-	  value: 1,
-	},
-	{
-	  key: 2,
 	  value: 2,
 	},
 	{
-	  key: 3,
+	  key: 2,
 	  value: 3,
 	},
 	{
-	  key: 4,
+	  key: 3,
 	  value: 4,
 	},
 	{
-	  key: 5,
+	  key: 4,
 	  value: 5,
+	},
+	{
+	  key: 5,
+	  value: 10,
 	},
 ];
 
@@ -65,6 +65,7 @@ const AwardChart = ({isLoading, setIsLoading}) => {
 	const [notificationCategory, setNotificationCategory] = useState('success');
 	const [notificationOpen, setNotificationOpen] = useState(false);
 	const [dataError, setDataError] = useState(false);
+	const dataTableRef = useRef();
 
   	const handleDialogOpen = () => setDialogOpen((currentState) => !currentState);
 	const handleNotificationOpen = () => setNotificationOpen((currentState) => !currentState);
@@ -149,8 +150,20 @@ const AwardChart = ({isLoading, setIsLoading}) => {
 		setCurrentRecord({});
 	}
 
-	const generateCsvHandler = () => {
-		console.log('Generating CSV file....');
+	const initExport = (type) => {
+		dataTableRef.current.exportAsFile(type);
+	}
+
+	const exportHandler = (type, currentRows) => {
+		let categoryList = [];
+		currentRows.map(item => categoryList.push(item.category))
+		const data = {"categories": categoryList}
+
+		if(type === 'excel'){
+			AwardChartService.exportAwardChartCsv(data);
+		} else {
+			//TODO: Implement
+		}
 	}
 
 	return (
@@ -185,12 +198,12 @@ const AwardChart = ({isLoading, setIsLoading}) => {
 							<TfiReload/>
 						</Button>
 						<Button variant="gradient" className="flex items-center gap-2 from-black to-blue-gray-900 hover:scale-105"
-							onClick={generateCsvHandler} disabled={dataError ? true : false}>
-							CSV
-							<FaFileCsv size={22}/>
+							onClick={() => initExport('excel')} disabled={dataError ? true : false}>
+							EXCEL
+							<FaFileExcel size={22}/>
 						</Button>
 						<Button variant="gradient" className="flex items-center gap-2 from-black to-blue-gray-900 hover:scale-105"
-							onClick={generateCsvHandler} disabled={dataError ? true : false}>
+							onClick={() => initExport('pdf')} disabled={dataError ? true : false}>
 							PDF
 							<FaFilePdf size={22}/>
 						</Button>
@@ -200,7 +213,8 @@ const AwardChart = ({isLoading, setIsLoading}) => {
 						<AwardChartsDataTable headers={tableHeaders} data={data} 
 							isLoading={isLoading} searchableColumns={searchableColumns}
 							rowsPerPageList={rowsPerPageList} dataError={dataError} 
-							itemClickHandler={initEditDialog} deleteHandler={deleteHandler} />
+							itemClickHandler={initEditDialog} deleteHandler={deleteHandler}
+							exportHandler={exportHandler} ref={dataTableRef} />
 					</div>
 
 				</CardBody>
