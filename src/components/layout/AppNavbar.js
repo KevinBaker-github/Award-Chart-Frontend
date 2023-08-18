@@ -26,12 +26,15 @@ const AppNavbar = () => {
                 <div className="flex justify-between items-center px-4 py-4 2xl:px-8">
                     <div className="flex flex-grow basis-0">
                         <Link to="/wellcome">
-                            <h2 className="text-2xl font-bold text-black hover:scale-105">Dynamic Pricing</h2>
+                            <div className="flex flex-col gap-0 items-center justify-center">
+                                <img src="poc-icon.png" className="hover:scale-105 w-8" />
+                                <h2 className="text-xs text-center font-bold text-black hover:scale-105">SRD Dynamic Pricing Choice Hotels</h2>
+                            </div>
                         </Link>
                     </div>
                     
                     <div className="hidden md:block">
-                        <div className="flex gap-5">
+                        <div className="flex gap-5 ml-16">
                             <NavigationSelect label={'Actions'}/>
                             <NavigationSelect label={'Reports'}/>
                         </div>
