@@ -1,7 +1,7 @@
 import { Typography, Tooltip, IconButton, Card } from "@material-tailwind/react";
 import { AiFillDelete } from 'react-icons/ai'
 import StandardPagination from "../general/StandardPagination";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import ValueIndicator from "../general/ValueIndicator";
 import StandardDropdown from "../general/StandardDropdown";
 import StandardSearchInput from "../general/StandardSearchInput";
@@ -19,7 +19,7 @@ import StandardSearchInput from "../general/StandardSearchInput";
  * @param {*} deleteHandler - handler for the delete button
  * @returns 
  */
-const AwardChartsDataTable = ({
+const AwardChartsDataTable = forwardRef(({
     headers,
     data,
     isLoading,
@@ -27,14 +27,21 @@ const AwardChartsDataTable = ({
     rowsPerPageList,
     dataError,
     itemClickHandler,
-    deleteHandler
-    }) => {
+    deleteHandler,
+    exportHandler
+    }, ref) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageList[0].value);
     const [searchTerm, setSearchTerm] = useState("");
     const [totalRows, setTotalRows] = useState(0);
     const [currentRows, setCurrentRows] = useState([]);
     const searchInput = useRef();
+
+    useImperativeHandle(ref, () => ({
+      exportAsFile(type) {
+        continueExport(type);
+      }
+    }));
 
     useEffect(() => {
         const filteredTotalRows = () => {
@@ -222,6 +229,10 @@ const AwardChartsDataTable = ({
     );
   };
 
+  // Type: excel, pdf
+  const continueExport = (type) => {
+    exportHandler(type, currentRows);
+  }
 
   return (
     <div className="flex w-full flex-col justify-between gap-4 mt-4">
@@ -285,6 +296,6 @@ const AwardChartsDataTable = ({
     
     </div>
   )
-}
+})
 
 export default AwardChartsDataTable;
