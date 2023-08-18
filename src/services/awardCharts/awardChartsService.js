@@ -49,7 +49,7 @@ export const exportAwardChartCsv = async (data) => {
     const config = {responseType: 'blob', headers};
     
     try {
-		const response = await axiosConfig.post('/exports/awardChart/csv', data, config)
+		const response = await axiosConfig.post('/exports/awardChart/poi/excel', data, config)
         
         const fileName = `award-charts-${Date.now()}.xlsx`;
 

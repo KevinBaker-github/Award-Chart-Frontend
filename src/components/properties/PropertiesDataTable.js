@@ -159,7 +159,7 @@ const PropertiesDataTable = ({
                 
                 <td className={classes}>
                     <PropertyValuesPresenter dataList={column5} isValuePerLine={true} 
-                        width={'w-80'} height={'h-16'} />
+                        width={'w-80'} height={'h-20'} />
                 </td>
 
               </tr>

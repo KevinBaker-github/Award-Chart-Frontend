@@ -258,34 +258,36 @@ const AwardChartsDataTable = forwardRef(({
       {/* Table section */}
       
       <Card className="h-full w-full rounded-md shadow-xl">
-        <table className="w-full min-w-max table-auto text-left">
-          <thead>
-            <tr>
-              <th colSpan="1"></th>
-              <th colSpan="3" className="text-center border-blue-gray-600 bg-blue-gray-600 py-2 text-black rounded-tl-md rounded-tr-md">Standard</th>
-              <th colSpan="2" className="text-center border-blue-gray-600 bg-yellow-800 text-black py-2 rounded-tl-md rounded-tr-md">Premium</th>
-            </tr>
-            <tr>
-              {headers.map((head, index) => (
-                <th
-                  key={head}
-                  className="border-blue-gray-900 bg-gray-900 px-4 py-3">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="text-center font-bold leading-none text-white">
-                    {head}
-                  </Typography>
-                </th>
-              ))}
-            </tr>
-          </thead>
-            
-          <tbody>
-            {!isLoading && validateData() }
-          </tbody>
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto min-w-max text-left">
+            <thead>
+              <tr>
+                <th colSpan="1"></th>
+                <th colSpan="3" className="text-center border-blue-gray-600 bg-blue-gray-600 py-2 text-black rounded-tl-md rounded-tr-md">Standard</th>
+                <th colSpan="2" className="text-center border-blue-gray-600 bg-yellow-800 text-black py-2 rounded-tl-md rounded-tr-md">Premium</th>
+              </tr>
+              <tr>
+                {headers.map((head, index) => (
+                  <th
+                    key={head}
+                    className="border-blue-gray-900 bg-gray-900 px-4 py-3">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="text-center font-bold leading-none text-white">
+                      {head}
+                    </Typography>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+              
+            <tbody>
+              {!isLoading && validateData() }
+            </tbody>
 
-        </table>
+          </table>
+        </div>
       </Card>
 
       {/* Pagination section */}
