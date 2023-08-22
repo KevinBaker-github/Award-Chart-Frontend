@@ -13,10 +13,12 @@ import AwardChartForm from "../components/awardChart/AwardChartForm";
 import * as AwardChartService from '../services/awardCharts/awardChartsService';
 import { mapAwardChartsList } from '../utils/mappers/AwardChartsMappers';
 import NotificationDialog from "../components/general/NotificationDialog";
-import { manageAwardChartCreationError } from "../utils/helpers/awardChart/AwardChartsErrorsHelper";
+import { manageAwardChartCreationError, 
+	manageAwardChartExcelError } from "../utils/helpers/awardChart/AwardChartsErrorsHelper";
 import AwardChartsDataTable from "../components/awardChart/AwardChartsDataTable";
 import generateDataTablePdfDocument from '../reports/awardCharts/AwardChartReports';
 import * as Validators from '../utils/validators/awardChartValidators';
+import AlertDismissable from "../components/general/AlertDismissible";
 
 const tableHeaders = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
 
@@ -69,6 +71,10 @@ const AwardChart = ({isLoading, setIsLoading}) => {
 	const [notificationOpen, setNotificationOpen] = useState(false);
 	const [dataError, setDataError] = useState(false);
 	const dataTableRef = useRef();
+	const [isAlertOpen, setIsAlertOpen] = useState(false);
+	const [alertType, setAlertType] = useState('');
+	const [alertMessage, setAlertMessage] = useState('');
+
 
   	const handleDialogOpen = () => setDialogOpen((currentState) => !currentState);
 	const handleNotificationOpen = () => setNotificationOpen((currentState) => !currentState);
@@ -171,8 +177,27 @@ const AwardChart = ({isLoading, setIsLoading}) => {
 		const data = {"categories": categoryList}
 
 		if(type === 'excel'){
-			AwardChartService.exportAwardChartCsv(data);
-			
+			AwardChartService.exportAwardChartCsv(data)
+			.then(res => {
+				setAlertType('success');
+				setAlertMessage('Document generated successfully!!!');
+				setIsAlertOpen(true);
+
+				const fileName = `award-charts-${Date.now()}.xlsx`;
+				const url = URL.createObjectURL(new Blob([res.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', fileName);
+				document.body.appendChild(link);
+				link.click();
+
+			})
+			.catch(err => {
+				console.log(err);
+				setNotificationCategory('error');
+				manageAwardChartExcelError(err, setNotificationOpen, setDisplayMessage);
+			})
+
 		} else {
 			generateDataTablePdfDocument(currentRows, `award-charts-${Date.now()}.pdf`);
 		}
@@ -185,7 +210,8 @@ const AwardChart = ({isLoading, setIsLoading}) => {
 				isEdit={isEdit} defaultData={currentRecord} />
 			<NotificationDialog title={''} description={displayMessage} dialogOpen={notificationOpen} 
 				dialogHandler={handleNotificationOpen} notificationCategory={notificationCategory}/>
-			
+			<AlertDismissable isAlertOpen={isAlertOpen} setIsAlertOpen={setIsAlertOpen} 
+				alertType={alertType} message={alertMessage} />
 			<CardContainer>
 				<CardHeader floated={false} shadow={false} className="rounded-none">
 					<div className="flex flex-col items-start">
