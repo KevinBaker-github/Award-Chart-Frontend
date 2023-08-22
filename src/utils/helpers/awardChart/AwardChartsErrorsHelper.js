@@ -14,3 +14,13 @@ export const manageAwardChartCreationError = (error, setOpenNotification, setDis
     }
     setOpenNotification(true);
 }
+
+export const manageAwardChartExcelError = (error, setOpenNotification, setDisplayMessage) => { //TODO: Change when backend has appropiate error messages
+    // Error treatment
+    if(error?.code === 500){
+        setDisplayMessage(error.message);
+    } else {
+        setDisplayMessage('There was an unexpected error!!!');
+    }
+    setOpenNotification(true);
+}
