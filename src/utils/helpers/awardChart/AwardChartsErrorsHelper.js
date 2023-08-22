@@ -5,7 +5,7 @@
  * setDisplayMessage and setNotificationCategory to specify which notification UI type is required [success, warning, error].
  * @param {*} param0 
  */
-export const manageAwardChartCreationError = (error, setOpenNotification, setDisplayMessage) => {
+export const manageAwardChartCreationError = (error, setOpenNotification, setDisplayMessage) => { //TODO: Change when backend has appropiate error messages
     // Error treatment
     if(error?.code === 500){
         setDisplayMessage(error.message);

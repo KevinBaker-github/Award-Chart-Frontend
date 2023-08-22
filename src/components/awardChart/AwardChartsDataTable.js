@@ -37,9 +37,9 @@ const AwardChartsDataTable = forwardRef(({
     const [currentRows, setCurrentRows] = useState([]);
     const searchInput = useRef();
 
-    useImperativeHandle(ref, () => ({
-      exportAsFile(type) {
-        continueExport(type);
+    useImperativeHandle(ref, () => ({ // Use to provide inverse call functions Parent to Child
+      exportAsFile(type) { // Function to be called from the caller component. (Page)
+        continueExport(type); // Local reverse handler function
       }
     }));
 

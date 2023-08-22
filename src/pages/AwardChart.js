@@ -7,7 +7,7 @@ import {
 import CardContainer from "../components/layout/CardContainer";
 import FullScreen from "../components/layout/FullScreen";
 import { TfiReload } from 'react-icons/tfi'
-import { FaFileCsv, FaFilePdf, FaFileExcel } from 'react-icons/fa';
+import { FaFilePdf, FaFileExcel } from 'react-icons/fa';
 import { useEffect, useRef, useState } from "react";
 import AwardChartForm from "../components/awardChart/AwardChartForm";
 import * as AwardChartService from '../services/awardCharts/awardChartsService';
@@ -15,6 +15,8 @@ import { mapAwardChartsList } from '../utils/mappers/AwardChartsMappers';
 import NotificationDialog from "../components/general/NotificationDialog";
 import { manageAwardChartCreationError } from "../utils/helpers/awardChart/AwardChartsErrorsHelper";
 import AwardChartsDataTable from "../components/awardChart/AwardChartsDataTable";
+import generateDataTablePdfDocument from '../reports/awardCharts/AwardChartReports';
+import * as Validators from '../utils/validators/awardChartValidators';
 
 const tableHeaders = ["Category", "Reward Saver", "Standard", "Base Peak", "Premium", "Premium Peak", "Options"];
 
@@ -49,6 +51,7 @@ const searchableColumns = [
 	{"level1": "premium", "level2": "points"},
 	{"level1": "premiumPeak", "level2": "points"}
 ];
+
 
 /**
  * Award charts page.
@@ -155,14 +158,23 @@ const AwardChart = ({isLoading, setIsLoading}) => {
 	}
 
 	const exportHandler = (type, currentRows) => {
+		if(!Validators.isValidExportingPDFData(currentRows)){
+			//Show alert
+			setNotificationCategory('warning');
+			setDisplayMessage('Invalid data to be exported! Please check the intended records.');
+			setNotificationOpen(true);
+			return
+		}
+
 		let categoryList = [];
-		currentRows.map(item => categoryList.push(item.category))
+		currentRows.map(item => categoryList.push(item.category));
 		const data = {"categories": categoryList}
 
 		if(type === 'excel'){
 			AwardChartService.exportAwardChartCsv(data);
+			
 		} else {
-			//TODO: Implement
+			generateDataTablePdfDocument(currentRows, `award-charts-${Date.now()}.pdf`);
 		}
 	}
 
