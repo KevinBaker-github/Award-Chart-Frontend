@@ -35,6 +35,7 @@ const AwardChartsDataTable = forwardRef(({
     const [searchTerm, setSearchTerm] = useState("");
     const [totalRows, setTotalRows] = useState(0);
     const [currentRows, setCurrentRows] = useState([]);
+    const [exportRows, setExportRows] = useState([]);
     const searchInput = useRef();
 
     useImperativeHandle(ref, () => ({ // Use to provide inverse call functions Parent to Child
@@ -79,6 +80,23 @@ const AwardChartsDataTable = forwardRef(({
             })
             .slice(indexOfFirstRow, indexOfLastRow);
         }
+
+        const unpaginatedFilteredCurrentRows = () => {
+          return data.filter(item => {
+              for (var searchableColumn of searchableColumns) {
+                if(searchableColumn.level1 !== '' && searchableColumn.level2 !== ''){
+                  if(item[`${searchableColumn.level1}`][`${searchableColumn.level2}`].toString().includes(searchTerm)){
+                    return true;
+                  }
+                } else {
+                  if(item[`${searchableColumn.level1}`].toString().includes(searchTerm)){
+                    return true;
+                  }
+                }
+              }
+              return false;
+          });
+      }
       
         // Only if it is not loading and it has no error, all parameters will be calculated
         if(!isLoading && !dataError) {
@@ -87,6 +105,7 @@ const AwardChartsDataTable = forwardRef(({
             const indexOfFirstRow = indexOfLastRow - rowsPerPage;
             setTotalRows(filteredTotalRows());
             setCurrentRows(filteredCurrentRows(indexOfLastRow, indexOfFirstRow));
+            setExportRows(unpaginatedFilteredCurrentRows());
         } else if(!isLoading && dataError) {
             console.log('HAY UN ERROR');//TODO: Delete
         }
@@ -231,7 +250,7 @@ const AwardChartsDataTable = forwardRef(({
 
   // Type: excel, pdf
   const continueExport = (type) => {
-    exportHandler(type, currentRows);
+    exportHandler(type, exportRows);
   }
 
   return (
