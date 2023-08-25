@@ -1,5 +1,4 @@
 import axiosConfig from '../../services/axiosConfig'
-import { AxiosRequestConfig } from 'axios';
 
 export const listAwardCharts = async () => {
     try {

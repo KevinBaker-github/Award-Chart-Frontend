@@ -70,7 +70,7 @@ const AppNavbar = () => {
                         [&>*>li]:cursor-pointer">
                         <Link to="/">
                             <li className="border-white hover:text-white hover:scale-105 hover:border-b-2" 
-                                onClick={() => setMenuOpen(!menuOpen)}>Menu 1</li>
+                                onClick={() => setMenuOpen(!menuOpen)}>Award Chart</li>
                         </Link>
                         <Link to="/">
                             <li className="border-white hover:text-white hover:scale-105 hover:border-b-2"

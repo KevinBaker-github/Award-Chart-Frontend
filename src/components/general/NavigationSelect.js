@@ -19,6 +19,9 @@ const NavigationSelect = ({label}) => {
             <Link to="/properties">
                 <Option className="text-black bg-white">Properties</Option>
             </Link>
+            <Link to="/propertyConfigBulk">
+                <Option className="text-black bg-white">Property Config Bulk</Option>
+            </Link>
       </Select>
     )
 }
