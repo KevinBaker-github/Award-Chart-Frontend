@@ -11,6 +11,7 @@ import Calculation from "./pages/Calculation";
 import FullScreenSpinner from "./components/general/FullScreenSpinner";
 import IdleManagement from "./components/general/IdleManagement";
 import Properties from "./pages/Properties";
+import PropertyConfigBulk from "./pages/PropertyConfigBulk";
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
@@ -32,6 +33,7 @@ const Routes = ({isLoading, setIsLoading}) => {
 					<SecureRoute path="/awardChart" exact={true} render={(props) => <AwardChart {...props} isLoading={isLoading} setIsLoading={setIsLoading}/>} />
 					<SecureRoute path="/calculation" exact={true} render={(props) => <Calculation {...props} setIsLoading={setIsLoading}/>} />
 					<SecureRoute path="/properties" exact={true} render={(props) => <Properties {...props} isLoading={isLoading} setIsLoading={setIsLoading}/>} />
+					<SecureRoute path="/propertyConfigBulk" exact={true} render={(props) => <PropertyConfigBulk {...props} isLoading={isLoading} setIsLoading={setIsLoading}/>} />
 					<SecureRoute path="/profile" component={Profile} />
 					<Route path="/login/callback" component={LoginCallback} />
 				</Switch>				
