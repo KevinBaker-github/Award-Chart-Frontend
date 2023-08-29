@@ -184,7 +184,7 @@ const PropertyConfigBulk = ({isLoading, setIsLoading}) => {
                                             <Card className="w-full h-full max-h-[16rem]">
                                                 <List className="overflow-y-scroll">
                                                     {bulkResults.recordStatus.map(({recordNumber, propertyConfig, messages, error}, index) => (
-                                                        <ListItem key={index}>
+                                                        <ListItem key={index} >
                                                             <div className="flex gap-4">
                                                                 Record {recordNumber}:
                                                                 <Chip

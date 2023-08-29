@@ -18,7 +18,9 @@ export const useUploadForm = (url) => {
         "Content-Type": "multipart/form-data",
       },
       onUploadProgress: (progressEvent) => {
-        const progress = (progressEvent.loaded / progressEvent.total) * 50;
+        //const progress = (progressEvent.loaded * 100) / progressEvent.total; // Real percentage
+        //const progress = (progressEvent.loaded / progressEvent.total) * 50; // Fake percentage
+        const progress = ((progressEvent.loaded * 100) / progressEvent.total) - Math.floor(Math.random() * 30) + 1; // Fake 2 percentage
         setProgress(progress);
       }
     })
